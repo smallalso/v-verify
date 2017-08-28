@@ -3,7 +3,11 @@
     * (c) 2017 joinyi
     * @license MIT
     */
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global['vv-alidate'] = factory());
+}(this, (function () { 'use strict';
 
 /**
  * Here is a validator like date|phone|emial
@@ -88,7 +92,7 @@ function generateFn (config, tips) {
  *  @param {Object} Vue
  *  @param {string} name
  *  @param {function} fn
- */
+*/
 function directives (Vue, name, fn) {
   Vue.directive(name, {
     bind: function (el) {
@@ -99,7 +103,11 @@ function directives (Vue, name, fn) {
   });
 }
 
-// 生成正则方法 和 指令 集合
+/**
+ * VUE plugin registed function
+ * @param {Object} Vue object 
+ * @param {Object} plugin config object 
+ */
 function install (Vue, options) {
   var tips = options.tips || function (msg) { alert(msg); };
   var validators = Object.assign(validator, options.validators = {});
@@ -125,4 +133,6 @@ var index = {
   install: install
 };
 
-module.exports = index;
+return index;
+
+})));

@@ -3,7 +3,7 @@
  *  @param {Object} Vue
  *  @param {string} name
  *  @param {function} fn
- */
+*/
 export default function directives (Vue, name, fn) {
   Vue.directive(name, {
     bind: function (el) {
