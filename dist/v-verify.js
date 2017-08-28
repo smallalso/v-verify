@@ -1,12 +1,12 @@
 /**
-    * vv-alidate v1.0.0
-    * (c) 2017 joinyi
-    * @license MIT
-    */
+      * v-verify v1.0.0
+      * (c) 2017 joinyi
+      * @license MIT
+      */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global['vv-alidate'] = factory());
+	(global['v-verify'] = factory());
 }(this, (function () { 'use strict';
 
 /**
@@ -109,19 +109,21 @@ function directives (Vue, name, fn) {
  * @param {Object} plugin config object 
  */
 function install (Vue, options) {
+  if ( options === void 0 ) options = {};
+
   var tips = options.tips || function (msg) { alert(msg); };
   var validators = Object.assign(validator, options.validators = {});
 
   var _keys = Object.keys(validators);
-
+  console.log(_keys);
   Vue.prototype.$verify = {};
   try {
     _keys.forEach(function (name) {
-      Vue.prototype.$verify[name] = generateFn(verifyObj[name], tips);
+      Vue.prototype.$verify[name] = generateFn(validators[name], tips);
       directives(Vue, name, Vue.prototype.$verify[name]);
     });
   } catch (e) {
-    console.log(e);
+    console.error((e + "\nfrom vv-alidate"));
   }
 }
 

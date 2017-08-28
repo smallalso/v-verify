@@ -14,12 +14,13 @@ function buildEntry (builds) {
     build(builds[count])
     .then(() => {
       count++
+      console.log(count, total, 2000)
       if (count < total) {
         next()
       }
     })
     .catch(err => {
-      console.log(err)
+      console.log(err, 200)
     })
   }
 
@@ -31,12 +32,20 @@ function build (config) {
   .then(bundle => {
     return generate(config, bundle)
   })
+  .catch(err => {
+    if (!err) return
+    console.log(err, 'build')
+  })
 }
 
 function generate (config, bundle) {
   return bundle.generate(config.output)
   .then(gen => {
     return write(config, gen.code)
+  })
+  .catch(err => {
+    if (!err) return
+    console.log(err, 'generate')
   })
 }
 
@@ -51,6 +60,7 @@ function write (config, code) {
     }
     fs.writeFile(config.output.file, code, (err) => {
       if (err) {
+        console.log(err, 300)
         return reject(err)
       }
       reject()

@@ -9,10 +9,10 @@ function genConfig (opts) {
     input: 'src/index.js',
     output: {
       format: opts.format,
-      name: 'vv-alidate',
+      name: 'v-verify',
       file: opts.file,
       banner: `/**
-      * vv-alidate v${version}
+      * v-verify v${version}
       * (c) ${new Date().getFullYear()} joinyi
       * @license MIT
       */`
@@ -37,10 +37,10 @@ function mapValues (obj, fn) {
 module.exports = mapValues({
   'min': {
     format: 'umd',
-    file: resolve('dist/vv-alidate.min.js')
+    file: resolve('dist/v-verify.min.js')
   },
   'unpack': {
     format: 'umd',
-    file: resolve('dist/vv-alidate.js')
+    file: resolve('dist/v-verify.js')
   }
 }, genConfig)

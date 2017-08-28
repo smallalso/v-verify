@@ -1,4 +1,4 @@
-# vv-alidate
+# v-verify
 
 a plugin for input validate of vue but now is in developing
 

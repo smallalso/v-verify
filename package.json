@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "node example/server.js",
     "build": "node config/build.js",
-    "lint": "eslint --ext .js src --fix"
+    "lint": "eslint --ext .js src --fix",
+    "docs": "docsify serve docs --open true --port 3002"
   },
   "dependencies": {},
   "devDependencies": {
