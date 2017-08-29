@@ -1,0 +1,88 @@
+@import
+
+    "../base/mixin",
+    "../base/variable";
+
+.ui-tips{
+    padding: $tips-padding;
+    text-align: left;
+    font-size: $font-size-tips;
+    color: $txt-default;
+    i{
+        display: inline-block;
+        width: 28px;
+        // height: 0px;
+        vertical-align: middle;
+    }
+    span {
+       display: inline-block;
+       max-width: 140px;
+       vertical-align: middle; 
+    }
+}
+.ui-tips i:before{
+    @include icon;
+    content: $icon-info;
+    color: $tips-info;
+    line-height: 21px;
+}
+.ui-tips-success i:before{
+    content: $icon-success;
+    color: $tips-success;
+}
+.ui-tips-warn i:before{
+    content: $icon-warn;
+    color: $tips-warn;
+}
+/**
+ * 提示组件
+ */
+.tips {
+  &-wrapper {
+    position: fixed;
+    left: 50%;
+    top: 30px;
+    background-color: $default-bg;
+    border-radius: $prompt-border-raduis;
+    box-shadow: 0px 0 5px $default-gray-light;
+    color: $txt-info;
+    z-index: $z-index-poptips;
+    padding: 6px 15px 7px 7px;
+    max-width: 280px;
+    transition: opacity .5s;
+    transform: translate3D(-50%, 50px, 0);
+    display: flex;
+    align-items: center;
+  }
+  &-pop {
+    &-enter-active, &-enter {
+      transition: opacity .5s;
+      animation: .5s moveDown forwards;
+    }
+    &-leave-to {
+      opacity: 0;
+      animation: .5s moveUp both;
+    }
+  }
+}
+
+@keyframes moveDown {
+  0% {
+    transform: translate3D(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3D(-50%, 50px, 0);
+  }
+}
+
+@keyframes moveUp {
+  0% {
+    transform: translate3D(-50%, 50px, 0);
+  }
+  30% {
+    transform: translate3D(-50%, 20px, 0);
+  }
+  100% {
+    transform: translate3D(-50%, 0, 0);
+  }
+}

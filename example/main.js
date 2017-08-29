@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import router from './router.js'
-import vValidate from 'vv-alidate'
-
-Vue.use(vValidate)
+import vVerify from 'v-verify'
+import App from './App.vue'
+Vue.use(vVerify)
 
 new Vue({
   el: '#app',
-  router
+  router,
+  template: '<App/>',
+  components: { App }
 })

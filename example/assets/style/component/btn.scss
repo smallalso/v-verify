@@ -1,0 +1,181 @@
+@import
+
+    "../base/mixin",
+    "../base/variable";
+    
+/**
+ * 按钮
+ */
+.ui-btn{
+    height: $button-height;
+    line-height: $button-height;
+    padding: $button-padding;
+    min-width: $button-min-width;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    font-size: $button-size;
+    background-color: $button-bg-color;
+    // background-image: $button-bg-image;
+    vertical-align: top;
+    // color: $button-text;
+    border-radius: $button-border-radius;
+    -webkit-box-sizing: border-box;
+    background-clip: padding-box;
+}
+.ui-btn-round {
+   border-radius: $button-border-round;
+}
+.ui-btn:not(.disabled):not(:disabled):active,.ui-btn.active{
+    background: $button-active-bg;
+    color: $button-active-text;
+    background-clip: padding-box;
+}
+.ui-btn:after{
+    content: "";
+    position: absolute;
+    top: -$button-hot-area;
+    bottom: -$button-hot-area;
+    left: 0;
+    right: 0;
+}
+.ui-btn-main{
+    background-color: $button-main-bg-color;
+    border-color: transparent;
+    background-image: $button-main-bg-image;
+    color: $button-main-text;
+    background-clip: padding-box;
+}
+.ui-btn-main:not(.disabled):not(:disabled):active,.ui-btn-main.active{
+    background: $button-main-active-bg;
+    border-color: $button-main-active-bg;
+    color: $button-main-active-text;
+    background-clip: padding-box;
+}
+.ui-btn-black{
+    background-color: $button-black-bg-color;
+    border-color: transparent;
+    background-image: $button-black-bg-image;
+    color: $button-black-text;
+    background-clip: padding-box;
+}
+.ui-btn-black:not(.disabled):not(:disabled):active,.ui-btn-black.active{
+    background: $button-black-active-bg;
+    border-color: $button-black-active-bg;
+    color: $button-black-active-text;
+    background-clip: padding-box;
+}
+.ui-btn-primary{
+    background-color: $button-primary-bg-color;
+    border-color: transparent;
+    background-image: $button-primary-bg-image;
+    color: $button-primary-text;
+    background-clip: padding-box;
+}
+.ui-btn-primary:not(.disabled):not(:disabled):active,.ui-btn-primary.active{
+    background: $button-primary-active-bg;
+    border-color: $button-primary-active-bg;
+    color: $button-primary-active-text;
+    background-clip: padding-box;
+}
+.ui-btn-danger{
+    background-color: $button-danger-bg-color;
+    background-image: $button-danger-bg-image;
+    color: $button-danger-text;
+    border-color: $button-danger-border-color;
+    background-clip: padding-box;
+}
+.ui-btn-danger:not(.disabled):not(:disabled):active,.ui-btn-danger.active{
+    background: $button-danger-active-bg;
+    border-color: $button-danger-active-bg;
+    color: $button-danger-active-text;
+    background-clip: padding-box;
+}
+.ui-btn.disabled,.ui-btn:disabled{
+    &:after{
+        background-color: rgba(255, 255, 255, .3);
+    }
+    // border: 0;
+    // color: $button-disabled-text;
+    // background: $button-disabled-bg-color;
+    // background-clip: padding-box;
+}
+.ui-btn-small{
+    font-size: $button-sl-size;
+    height: $button-sl-height;
+    line-height: $button-sl-height;
+    display: inline-block;
+    width: 46%;  
+    // border-radius: $button-sl-border-radius;
+    ~ .ui-btn-small {
+        margin-left: 6%;
+    }
+}
+.ui-btn-middle{
+    font-size: $button-md-size;
+    height: $button-lg-height;
+    line-height: $button-lg-height;
+    display: block;
+    width: 100%;  
+    border-radius: $button-lg-border-radius;
+}
+.ui-btn-large{
+    font-size: $button-lg-size;
+    height: $button-lg-height;
+    line-height: $button-lg-height;
+    display: block;
+    width: 100%;  
+    // border-radius: $button-lg-border-radius;
+}
+
+.ui-btn-upload {
+    position: relative;
+    & > input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: $z-index-notice;
+    }
+}
+
+.ui-btn-wrap{
+    padding: $button-wrap-padding;
+    @media (max-width: 320px) {
+        padding: $button-wrap-padding-s;
+    }
+}
+
+.ui-btn-s{
+    @extend .ui-btn;
+    padding: 0;
+    width: $button-s-width;
+    height: $button-s-height;
+    line-height: $button-s-height;
+    font-size: $button-s-size;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .ui-btn-primary:before{
+        border: 1px solid $button-primary-border-color;
+    }
+    .ui-btn-danger:before{
+        border: 1px solid $button-danger-border-color;
+    }
+    .ui-btn{
+        border: 0;
+    }
+    .ui-btn-border {
+        @include border-radius($button-border-color,$button-border-radius,$button-before-border-radius);
+        &:after {
+            border-radius: $button-border-round;
+        }
+    }
+    .ui-btn-round:before {
+        border-radius: $button-border-round;
+    }
+    
+}
+
