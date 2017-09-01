@@ -3,14 +3,22 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+const test = System.import('@/pages/test.md')
+const test1 = System.import('@/pages/test1.md')
+
 export default new Router({
   mode: 'history',
   base: '/',
   routes: [
     {
       path: '',
-      name: 'phone',
-      component: r => System.import('@/pages/Phone.vue')
+      name: 'index',
+      component: t => test
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: t => test1
     }
   ]
 })
