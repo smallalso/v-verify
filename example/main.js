@@ -2,6 +2,8 @@ import Vue from 'vue'
 import router from './router.js'
 import vVerify from 'v-verify'
 import App from './App.vue'
+import Vuep from 'vuep'
+import 'vuep/dist/vuep.css'
 
 import 'muse-components/styles/base.less'
 import contentBlock from 'muse-components/contentBlock'
@@ -21,6 +23,7 @@ Vue.component(iconButton.name, iconButton)
 Vue.component(contentBlock.name, contentBlock)
 
 Vue.use(vVerify)
+Vue.use(Vuep)
 
 new Vue({
   el: '#app',

@@ -83,13 +83,6 @@ export default {
       this.$router.push({
         path: val
       })
-      // this.menuVal = val
-      // if (this.docked) {
-      //   window.location.hash = this.menuVal
-      // } else {
-      //   this.changeHref = true
-      // }
-      // this.$emit('change', val)
     }
   },
   destroyed () {

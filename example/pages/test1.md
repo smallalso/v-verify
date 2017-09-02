@@ -1,4 +1,44 @@
-## test1
+
+## Demo
+
+<vuep template="#demo1"></vuep>
+
+<script v-pre type="text/x-template" id="demo1">
+  <style>
+    .main {
+      color: #2c3e50;
+    }
+    .text {
+      color: #4fc08d;
+    }
+  </style>
+
+  <template>
+    <div class="main">
+      <h2> Hello <span class="text">{{ name }}</span>!</h2>
+      <h2>Features</h2>
+      <ul>
+        <li v-for="text in features">{{ text }}</li>
+      </ul>
+    </div>
+  </template>
+
+  <script>
+    module.exports = {
+      data () {
+        return {
+          name: 'Vuep',
+          features: [
+            'Vue component spec',
+            'Scoped style',
+            'UMD and CommonJS build'
+          ]
+        }
+      }
+    }
+  </script>
+</script>
+
 
 Muse-UI 已经发布在 [npm](https://www.npmjs.com/package/muse-ui), 可以使用 `npm` 和 `yarn` 安装，或者使用 `<script>` 直接在网页中引入。
 

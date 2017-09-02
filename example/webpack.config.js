@@ -51,6 +51,10 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', {
           loader: "less-loader", 
@@ -86,7 +90,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.md'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.common',
       'v-verify': path.join(__dirname, '../src/index.js'),
       'muse-components': 'muse-ui/src',
       '@': path.join(__dirname, '../example'),

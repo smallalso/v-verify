@@ -7,7 +7,6 @@ const test = System.import('@/pages/test.md')
 const test1 = System.import('@/pages/test1.md')
 
 export default new Router({
-  mode: 'history',
   base: '/',
   routes: [
     {
