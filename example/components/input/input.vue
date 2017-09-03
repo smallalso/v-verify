@@ -45,7 +45,7 @@
  * @example
  */
 export default {
-  name: 'z-input',
+  name: 'v-input',
   props: {
     value: {},
     type: {

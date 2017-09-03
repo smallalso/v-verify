@@ -3,6 +3,7 @@ import router from './router.js'
 import vVerify from 'v-verify'
 import App from './App.vue'
 import Vuep from 'vuep'
+import Compt from './components'
 import 'vuep/dist/vuep.css'
 
 import 'muse-components/styles/base.less'
@@ -22,6 +23,7 @@ Vue.component(appBar.name, appBar)
 Vue.component(iconButton.name, iconButton)
 Vue.component(contentBlock.name, contentBlock)
 
+Vue.use(Compt)
 Vue.use(vVerify)
 Vue.use(Vuep)
 

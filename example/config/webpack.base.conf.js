@@ -4,21 +4,13 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const museUiThemePath = path.join(
   __dirname,
-  '../',
+  '../../',
   'node_modules',
   'muse-ui',
   'src/styles/themes/variables/green.less'
 )
 
 module.exports = {
-  devtool: 'inline-source-map',
-  entry: ['webpack-hot-middleware/client?reload=true', path.join(__dirname, './main.js')],
-  output: {
-    path: path.join(__dirname, '__build__'),
-    filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
-    publicPath: '/'
-  },
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
@@ -47,25 +39,6 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.less$/,
-        use: ['style-loader', 'css-loader', {
-          loader: "less-loader", 
-          options: {
-            globalVars: {
-              'museUiTheme': `'${museUiThemePath}'`
-            }
-          }
-        }]
-      },
-      {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
@@ -91,16 +64,16 @@ module.exports = {
     extensions: ['.js', '.vue', '.md'],
     alias: {
       'vue$': 'vue/dist/vue.common',
-      'v-verify': path.join(__dirname, '../src/index.js'),
+      'v-verify': path.join(__dirname, '../../src/index.js'),
       'muse-components': 'muse-ui/src',
-      '@': path.join(__dirname, '../example'),
+      '@': path.join(__dirname, '../../example'),
     }
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       title: 'vv-alidate examples',
-      template: path.join(__dirname, './index.html'),
+      template: path.join(__dirname, '../index.html'),
       inject: true
     }),
     new webpack.DefinePlugin({
