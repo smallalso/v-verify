@@ -19,7 +19,7 @@ module.exports = merge(baseConfig, {
     path: path.resolve(__dirname, '../../docs'),
     filename: 'js/[name].js',
     chunkFilename: 'js/[id].chunk.js',
-    publicPath: '/'
+    publicPath: '/v-verify'
   },
   devtool: '#source-map',
   module: {
