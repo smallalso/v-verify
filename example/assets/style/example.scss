@@ -1,0 +1,14 @@
+.example {
+  &-input {
+    padding: 2px 5px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &-error {
+    font-size: 11px;
+    color: #ff3860;
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

@@ -16,12 +16,9 @@ export default {
       open: true,
       openWidth: 990,
       navConfig: [{
-        title: '开始',
+        title: '快速开始',
         list: [{
-          title: 'test',
-          path: '/test'
-        }, {
-          title: 'index',
+          title: '用例展示',
           path: '/'
         }]
       }]
@@ -30,3 +27,4 @@ export default {
 }
 </script>
 <style src="@/assets/style/basic.scss" lang="scss"></style>
+<style src="@/assets/style/example.scss" lang="scss"></style>

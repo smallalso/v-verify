@@ -1,17 +1,12 @@
-import { classBe } from './utils.js'
+import { classOf } from './utils.js'
 
-/**
- * generate verify function for all verifies
- * @param {Object} config 
- * @param {function} tips 
- */
-export default function generateFn (config, tips) {
-  const _regType = classBe(config.reg)
+
+function verifyValue (reg, value) {
+  const _regType = classOf(reg)
   let _fn = null
   switch (_regType) {
     case 'regexp':
       _fn = (data) => {
-        const reg = config.reg
         if (!reg.test(data)) {
           return false
         }
@@ -20,7 +15,6 @@ export default function generateFn (config, tips) {
       break
     case 'array':
       _fn = (data) => {
-        const reg = config.reg
         let _bool = true
         for (let i = 0; i < reg.length; i++) {
           if (_typeof(reg[i]) === 'regexp') {
@@ -33,7 +27,7 @@ export default function generateFn (config, tips) {
       break
     case 'function':
       _fn = (data) => {
-        return config.reg(data)
+        return reg(data)
       }
       break
     default:
@@ -43,5 +37,25 @@ export default function generateFn (config, tips) {
         }()
       }
   }
-  return _fn
+  return _fn(value)
+}
+
+
+/**
+ * generate verify function for all verifies
+ * @param {Object} config 
+ * @param {function} tips 
+ */
+export default function verifyFn (validators) {
+  return function (validator, value) {
+    console.log(validator, value, 234)
+    const _config = validators[validator]
+    if (!_config || !_config.reg) {
+      throw new function () {
+        return `the ${validator} is undefined`
+      }()
+      return
+    } 
+    return verifyValue(_config.reg, value)
+  }
 }

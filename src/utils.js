@@ -2,7 +2,7 @@
  * javscript data type judgment
  * @param {*} obj 
  */
-function classBe (obj) {
+function classOf (obj) {
   const class2type = {}
   'Boolean Number String Function Array Date RegExp Object tips'.split(' ')
   .forEach((e, i) => {
@@ -17,5 +17,5 @@ function classBe (obj) {
 }
 
 export {
-  classBe
+  classOf
 }

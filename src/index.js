@@ -1,5 +1,5 @@
 import validator from './validator.js'
-import generateFn from './generator.js'
+import verifyFn from './generator.js'
 import directives from './directive.js'
 
 /**
@@ -10,17 +10,11 @@ import directives from './directive.js'
 function install (Vue, options = {}) {
   const tips = options.tips || function (msg) { alert(msg) }
   const validators = Object.assign(validator, options.validators = {})
-
-  const _keys = Object.keys(validators)
-  console.log(_keys)
-  Vue.prototype.$verify = {}
   try {
-    _keys.forEach(name => {
-      Vue.prototype.$verify[name] = generateFn(validators[name], tips)
-      directives(Vue, name, Vue.prototype.$verify[name])
-    })
+    Vue.prototype.$verify = verifyFn(validators)
+    directives(Vue, validators, Vue.prototype.$verify)
   } catch (e) {
-    console.error(`${e}\nfrom vv-alidate`)
+    console.error(`${e}\nfrom v-verify`)
   }
 }
 
