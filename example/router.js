@@ -3,21 +3,30 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// const test = System.import('@/pages/test.md')
-const test1 = System.import('@/pages/example.md')
-
+const test = System.import('@/pages/test.md')
+const basic = System.import('@/pages/basic.md')
+const submit = System.import('@/pages/submit.md')
 export default new Router({
   base: '/',
   routes: [
     {
       path: '',
-      name: 'example',
-      component: t => test1
+      component: t => test
     },
     {
-      path: '/test',
-      name: 'example',
-      component: t => test1
+      path: '/start',
+      name: 'start',
+      component: t => test
+    },
+    {
+      path: '/basic',
+      name: 'basic',
+      component: t => basic
+    },
+    {
+      path: '/submit',
+      name: 'submit',
+      component: t => submit
     }
   ]
 })

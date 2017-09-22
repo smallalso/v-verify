@@ -20,7 +20,13 @@ const date = {
   msg: '您填写的日期格式不正确'
 }
 
+const number = {
+  reg: (value) => { return /^[0-9]+$/.test(String(value)) },
+  msg: '您填写的内容包含非数字'
+}
+
 export default {
   required,
+  number,
   date
 }

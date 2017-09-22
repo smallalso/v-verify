@@ -1,3 +1,4 @@
+import event from './event.js'
 import { classOf } from './utils.js'
 
 
@@ -47,8 +48,8 @@ function verifyValue (reg, value) {
  * @param {function} tips 
  */
 export default function verifyFn (validators) {
-  return function (validator, value) {
-    console.log(validator, value, 234)
+
+  this.verify = function (validator, value) {
     const _config = validators[validator]
     if (!_config || !_config.reg) {
       throw new function () {
@@ -57,5 +58,9 @@ export default function verifyFn (validators) {
       return
     } 
     return verifyValue(_config.reg, value)
+  }
+
+  this.verifyAll = function (type) {
+    return event.fireEvent(type)
   }
 }

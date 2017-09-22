@@ -1,5 +1,5 @@
 import validator from './validator.js'
-import verifyFn from './generator.js'
+import verify from './verify.js'
 import directives from './directive.js'
 
 /**
@@ -7,12 +7,13 @@ import directives from './directive.js'
  * @param {Object} Vue object 
  * @param {Object} plugin config object 
  */
+
 function install (Vue, options = {}) {
   const tips = options.tips || function (msg) { alert(msg) }
   const validators = Object.assign(validator, options.validators = {})
   try {
-    Vue.prototype.$verify = verifyFn(validators)
-    directives(Vue, validators, Vue.prototype.$verify)
+    Vue.prototype.$validator = new verify(validators)
+    directives(Vue, validators, Vue.prototype.$validator.verify)
   } catch (e) {
     console.error(`${e}\nfrom v-verify`)
   }
