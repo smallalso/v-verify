@@ -22,7 +22,7 @@
 </style>
 
 <template>
-    <v-layout name="v-verify"
+    <v-layout name="V-Verify"
               :navConfig="navConfig">
       <router-view></router-view>
       <a href="https://github.com/joinyi/v-verify" target="_blank">
@@ -43,7 +43,7 @@ export default {
         title: '快速开始',
         list: [{
           title: '安装',
-          path: '/start'
+          path: '/install'
         }, {
           title: '使用',
           path: '/usage'

@@ -1,10 +1,10 @@
 {
-  "name": "vv-aliate",
-  "version": "1.0.0",
+  "name": "v-verify",
+  "version": "1.0.1",
   "description": "a plugin of vue.js for input validate",
-  "main": "dist/vv-alidate.min.js",
-  "unpkg": "dist/vv-alidate.js",
-  "repository": "git@github.com:joinyi/vv-alidate.git",
+  "main": "dist/v-verify.min.js",
+  "unpkg": "dist/v-verify.js",
+  "repository": "git@github.com:joinyi/v-verify.git",
   "author": "hu141418@gmail.com",
   "license": "MIT",
   "scripts": {

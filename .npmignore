@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+example/
+docs/
+config/
+.vscode/*
+*.psd
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

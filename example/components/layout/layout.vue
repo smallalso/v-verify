@@ -72,7 +72,7 @@ export default {
       docked: true,
       mobileWidth: 750,
       menuVal: this.$route.path,
-      title: null
+      title: '快速开始'
     }
   },
   props: {
@@ -93,7 +93,7 @@ export default {
     if (window.innerWidth < this.mobileWidth) {
       this.docked = false
     }
-    if (this.menuVal) {
+    if (this.menuVal && this.menuVal !== '/') {
       this.setTitle(this.menuVal)
     }
     window.addEventListener('resize', () => {
@@ -118,24 +118,29 @@ export default {
     },
     handleMenuChange (val) {
       this.menuVal = val
-      this.setTitle(val)
       this.$router.push({
         path: val
       })
+      this.setTitle(val)
     },
     setTitle (path) {
+      let _title = ''
       if (!this.navConfig) return
       for (var i = 0; i < this.navConfig.length; i++) {
         if (this.navConfig[i].title) {
-          this.title = this.navConfig[i].title
+          _title = this.navConfig[i].title
         }
         if (!this.navConfig[i].list) return
         for (var j = 0; j < this.navConfig[i].list.length; j++) {
-          if (this.navConfig[i].list[j].path !== path) return
-          this.title += `－${this.navConfig[i].list[j].title}`
-          break
+          if (this.navConfig[i].list[j].path === path) {
+            _title = `${_title}－${this.navConfig[i].list[j].title}`
+            break
+          }
         }
+        if (_title.indexOf('－') === -1) continue
+        break
       }
+      this.title = _title
     }
   },
   destroyed () {

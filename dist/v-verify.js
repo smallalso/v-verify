@@ -13,21 +13,97 @@
  * Here is a validator like date|phone|emial
  */
 
+// required validator
+var required = {
+  reg: function (value) {
+    if (value === undefined || value === null || value === '') {
+      return false;
+    }
+  
+    return !! String(value).trim().length;
+  },
+  msg: '必填选项，请填写'
+};
+
 // date validator
 var date = {
   reg: /^[1|2][0-9]{3}-[0-1][0-9]-[0-3][0-9]$/,
-  msg: 'sorry, the date format is incorrect'
+  msg: '您填写的日期格式不正确'
+};
+
+var number = {
+  reg: function (value) { return /^[0-9]+$/.test(String(value)) },
+  msg: '您填写的内容包含非数字'
 };
 
 var validator = {
+  required: required,
+  number: number,
   date: date
+};
+
+var listener = {};
+
+function addEvent (type, fn) {
+  if (!type || !fn || typeof type !== 'string' || typeof fn !== 'function') {
+    throw new Error('传入的参数不符合要求！')
+    return
+  }
+
+  if (typeof listener[type] === 'undefined') {
+    listener[type] = [];
+  }
+
+  listener[type].push(fn);
+}
+
+function fireEvent (type) {
+  var _target = listener[type];
+  var result = [];
+  if (!type || !_target || !_target.length) {
+    throw new Error('无该类型事件')
+    return
+  }
+  _target.forEach(function (item) {
+    if (typeof item !== 'function') { return }
+    result.push(item({ type: type }));
+  });
+  return result
+}
+
+function removeEvent (type, fn) {
+  var _target = listener[type];
+  if (!type || !_target || !_target.length) {
+    throw new Error('无该类型事件')
+    return
+  }
+  if (typeof fn === 'function') {
+    for (var i = 0; i < _target.length; i++) {
+      if (_target[i] !== fn) { continue }
+      listener[type].splice(i, 1);
+      break
+    }
+  } else {
+    delete listener[type];
+  }
+}
+
+function getListener (type) {
+  return listener[type]
+}
+
+var event = {
+  addEvent: addEvent,
+  fireEvent: fireEvent,
+  removeEvent: removeEvent,
+  getListener: getListener
 };
 
 /**
  * javscript data type judgment
  * @param {*} obj 
  */
-function classBe (obj) {
+function classOf (obj) {
   var class2type = {};
   'Boolean Number String Function Array Date RegExp Object tips'.split(' ')
   .forEach(function (e, i) {
@@ -41,18 +117,12 @@ function classBe (obj) {
     : typeof obj
 }
 
-/**
- * generate verify function for all verifies
- * @param {Object} config 
- * @param {function} tips 
- */
-function generateFn (config, tips) {
-  var _regType = classBe(config.reg);
+function verifyValue (reg, value) {
+  var _regType = classOf(reg);
   var _fn = null;
   switch (_regType) {
     case 'regexp':
       _fn = function (data) {
-        var reg = config.reg;
         if (!reg.test(data)) {
           return false
         }
@@ -61,7 +131,6 @@ function generateFn (config, tips) {
       break
     case 'array':
       _fn = function (data) {
-        var reg = config.reg;
         var _bool = true;
         for (var i = 0; i < reg.length; i++) {
           if (_typeof(reg[i]) === 'regexp') {
@@ -74,7 +143,7 @@ function generateFn (config, tips) {
       break
     case 'function':
       _fn = function (data) {
-        return config.reg(data)
+        return reg(data)
       };
       break
     default:
@@ -84,7 +153,31 @@ function generateFn (config, tips) {
         }()
       };
   }
-  return _fn
+  return _fn(value)
+}
+
+
+/**
+ * generate verify function for all verifies
+ * @param {Object} config 
+ * @param {function} tips 
+ */
+function verifyFn (validators) {
+
+  this.verify = function (validator, value) {
+    var _config = validators[validator];
+    if (!_config || !_config.reg) {
+      throw new function () {
+        return ("the " + validator + " is undefined")
+      }()
+      return
+    } 
+    return verifyValue(_config.reg, value)
+  };
+
+  this.verifyAll = function (type) {
+    return event.fireEvent(type)
+  };
 }
 
 /**
@@ -93,12 +186,73 @@ function generateFn (config, tips) {
  *  @param {string} name
  *  @param {function} fn
 */
-function directives (Vue, name, fn) {
-  Vue.directive(name, {
-    bind: function (el) {
-      el.addEventListener('change', function (e) {
-        fn(e.target.value);
+
+function directives (Vue, validator, fn) {
+
+  function dealRegs (regs) {
+    if (!regs) {
+      throw new function () {
+        return "the directive v-verify value is undefined"
+      }()
+      return
+    }
+    return regs.split('|')
+  }
+
+  function dealValue (value, regs, _error) {
+    var _regs = dealRegs(regs);
+    var _text = '';
+    if (!_regs) { return }
+    for (var i = 0; i < _regs.length; i++) {
+      var reg = _regs[i].trim();
+      if (fn(reg, value)) {
+        _text = '';
+        continue
+      }
+      _text = validator[reg] ? validator[reg].msg : '';
+      break
+    }
+    _error.innerText = _text;
+    return _text === ''
+  }
+
+  function dealSubmit (el, binding, _error) {
+    var _submit = el.getAttribute('data-verify-submit');
+    if (!_submit) { return }
+    function submitValue (el, binding, _error) {
+      return function () {
+        return dealValue(el.value, binding.value, _error)
+      }
+    }
+    event.addEvent(_submit, submitValue(el, binding, _error)); 
+  }
+
+  function bindEvent (el, _events, value, _error) {
+    _events.forEach(function (item) {
+      if (item === 'initial') {
+        dealValue(el.value, value, _error);
+        return
+      }
+      el.addEventListener(item, function (e) {
+        dealValue(e.target.value, value, _error);
       });
+    });
+  }
+
+  Vue.directive('verify', {
+    inserted: function (el, binding, vnode) {
+      var _events = Object.keys(binding.modifiers).length ? Object.keys(binding.modifiers) : ['change'];
+      var _dom = el.getAttribute('data-verify-dom');
+      var _error = _dom ? el.parentNode.querySelector(_dom) : null;
+      dealSubmit(el, binding, _error);
+      bindEvent(el, _events, binding.value, _error);
+    },
+    unbind: function (el) {
+      var _submit = el.getAttribute('data-verify-submit');
+      if (!_submit) { return }
+      if (event.getListener(_submit)) {
+        event.removeEvent(_submit);
+      }
     }
   });
 }
@@ -108,22 +262,17 @@ function directives (Vue, name, fn) {
  * @param {Object} Vue object 
  * @param {Object} plugin config object 
  */
+
 function install (Vue, options) {
   if ( options === void 0 ) options = {};
 
   var tips = options.tips || function (msg) { alert(msg); };
   var validators = Object.assign(validator, options.validators = {});
-
-  var _keys = Object.keys(validators);
-  console.log(_keys);
-  Vue.prototype.$verify = {};
   try {
-    _keys.forEach(function (name) {
-      Vue.prototype.$verify[name] = generateFn(validators[name], tips);
-      directives(Vue, name, Vue.prototype.$verify[name]);
-    });
+    Vue.prototype.$validator = new verifyFn(validators);
+    directives(Vue, validators, Vue.prototype.$validator.verify);
   } catch (e) {
-    console.error((e + "\nfrom vv-alidate"));
+    console.error((e + "\nfrom v-verify"));
   }
 }
 
