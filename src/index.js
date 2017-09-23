@@ -1,4 +1,4 @@
-import validator from './validator.js'
+import validator from './validator/'
 import verify from './verify.js'
 import directives from './directive.js'
 

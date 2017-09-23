@@ -16,6 +16,13 @@ function classOf (obj) {
     : typeof obj
 }
 
+function filterRegParams (reg) {
+  if (reg.indexOf(':') === -1) return [reg]
+  const _reg = reg.split(':')
+  return [_reg.splice(0, 1), _reg]
+}
+
 export {
-  classOf
+  classOf,
+  filterRegParams
 }

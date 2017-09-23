@@ -1,5 +1,7 @@
 ### 提交前验证示例
 
+- 使用自定义属性
+
 <vuep template="#demo2"></vuep>
 
 <script v-pre type="text/x-template" id="demo2">
@@ -27,10 +29,11 @@
         <label>电话</label>
         <p>
           <input class="example-input"
-                v-verify.input.blur="'required|number'"
+                 name="电话"
+                v-verify.input.blur="'required|numberic|max:11'"
                 data-verify-dom=".date-error"
                 data-verify-submit="demo2"
-                placeholder="yyyy-mm-dd"/>
+                placeholder="电话"/>
           <span class="date-error example-error"></span>
         </p>
       </div>
@@ -42,7 +45,7 @@
                 v-verify.input.blur="'required'"
                 data-verify-dom=".date-error"
                 data-verify-submit="demo2"
-                placeholder="yyyy-mm-dd"/>
+                placeholder="姓名"/>
           <span class="date-error example-error"></span>
         </p>
       </div>
@@ -66,6 +69,95 @@
       methods: {
         submitData() {
           const result = this.$validator.verifyAll('demo2')
+          if (result.indexOf(false) > -1) {
+            alert('抱歉！请按指定格式填写')
+          } else {
+            alert('填写成功')
+          }
+        }
+      }
+    }
+  </script>
+</script>
+
+
+- 使用对象字面量
+
+<vuep template="#demo3"></vuep>
+
+<script v-pre type="text/x-template" id="demo3">
+  <style>
+    .text {
+      color: #4fc08d;
+    }
+  </style>
+
+  <template>
+    <div>
+      <div>
+        <label>日期</label>
+        <p>
+          <input class="example-input"
+                v-verify.input.blur="{
+                  regs: 'required|date',
+                  dom: '.date-error',
+                  submit: 'demo3',
+                  name: '日期'
+                }"
+                placeholder="yyyy-mm-dd"/>
+          <span class="date-error example-error"></span>
+        </p>
+      </div>
+
+      <div>
+        <label>电话</label>
+        <p>
+          <input class="example-input"
+                v-verify.input.blur="{
+                  regs: 'required|numberic|max:11',
+                  dom: '.date-error',
+                  submit: 'demo3',
+                  name: '电话'
+                }"
+                placeholder="电话"/>
+          <span class="date-error example-error"></span>
+        </p>
+      </div>
+
+      <div>
+        <label>姓名</label>
+        <p>
+          <input class="example-input"
+                v-verify.input.blur="{
+                  regs: 'required',
+                  dom: '.date-error',
+                  submit: 'demo3',
+                  name: '姓名'
+                }"
+                placeholder="姓名"/>
+          <span class="date-error example-error"></span>
+        </p>
+      </div>
+
+      <div>
+        <button class="example-btn example-btn_default"
+                @click="submitData">
+          提交
+        </button>
+      </div> 
+    </div>
+  </template>
+
+  <script>
+    module.exports = {
+      data () {
+        return {
+          time: '2017/09/09'
+        }
+      },
+      methods: {
+        submitData() {
+          const result = this.$validator.verifyAll('demo3')
           if (result.indexOf(false) > -1) {
             alert('抱歉！请按指定格式填写')
           } else {
