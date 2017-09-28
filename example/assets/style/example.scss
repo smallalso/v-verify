@@ -1,8 +1,13 @@
 .example {
   &-input {
-    padding: 2px 5px;
+    padding: 3px 10px;
     display: inline-block;
     vertical-align: middle;
+    border: 1px solid #ddd;
+    outline: none;
+    &-error {
+      border-color: #ff3860;
+    }
   }
   &-error {
     font-size: 11px;
@@ -22,5 +27,8 @@
       color: #fff;
       background-color: #41B883;
     }
+  }
+  &-main-color {
+    color: #4fc08d;
   }
 }

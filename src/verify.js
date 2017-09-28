@@ -28,7 +28,7 @@ function verifyValue (reg, value, params) {
       break
     case 'function':
       _fn = (value) => {
-        return params ? reg(value, params) : reg(value)
+        return params ? reg(value, params ) : reg(value)
       }
       break
     default:

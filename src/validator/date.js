@@ -1,1 +1,9 @@
-export default /^[1|2][0-9]{3}-[0-1][0-9]-[0-3][0-9]$/
+import { formatDate, parse } from '../utils.js'
+
+export default (value, format = 'YYYY-MM-DD') => {
+  const _value = parse(value, format, new Date())
+  if (value !== formatDate(_value, format)) {
+    return false
+  }
+  return true
+}

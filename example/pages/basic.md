@@ -1,41 +1,102 @@
-### 日期示例
+### 基本示例
+
+#### 1.使用 `input` `blur` 触发验证
 
 <vuep template="#demo1"></vuep>
-
 <script v-pre type="text/x-template" id="demo1">
-  <style>
-    .text {
-      color: #4fc08d;
-    }
-  </style>
-
   <template>
     <div>
-      <h3 class="text">date - input</h3>
+      <h3 class="example-main-color">date - input</h3>
       <div>
         <input class="example-input"
                v-verify.input.blur="'required|date'"
-               data-verify-dom=".date-error"
-               placeholder="yyyy-mm-dd"/>
-        <span class="date-error example-error"></span>
-      </div>
-      <h3 class="text">date - initial</h3>
-      <div>
-        <input v-model="time"
-               class="example-input"
-               v-verify.input.initial="'required|date'"
-               data-verify-dom=".date-error"
-               placeholder="yyyy-mm-dd"/>
-        <span class="date-error example-error"></span>
+               placeholder="YYYY-MM-DD"/>
       </div>
     </div>
   </template>
+</script>
 
+#### 2.使用 `initial` 初始化验证并使用 `change` 触发验证
+
+<vuep template="#demo2"></vuep>
+<script v-pre type="text/x-template" id="demo2">
+  <template>
+    <div>
+      <h3 class="example-main-color">date - initial</h3>
+      <div>
+        <input v-model="time"
+               class="example-input"
+               v-verify.initial.change="'required|date:DD/MM/YYYY'"
+               placeholder="DD/MM/YYYY"/>
+      </div>
+    </div>
+  </template>
   <script>
     module.exports = {
       data () {
         return {
-          time: '2017/09/09'
+          time: '2018-09-24'
+        }
+      }
+    }
+  </script>
+</script>
+
+#### 3.使用dom容器展示 错误信息
+
+添加 `data-verify-dom` 属性
+
+<vuep template="#demo3"></vuep>
+<script v-pre type="text/x-template" id="demo3">
+  <template>
+    <div>
+      <h3 class="example-main-color">date - initial</h3>
+      <div>
+        <input v-model="time"
+               class="example-input"
+               v-verify.initial.change="'required|date:DD/MM/YYYY'"
+               data-verify-dom=".example-error"
+               placeholder="DD/MM/YYYY"/>
+        <span class="example-error"></span>
+      </div>
+    </div>
+  </template>
+  <script>
+    module.exports = {
+      data () {
+        return {
+          time: '2018-09-24'
+        }
+      }
+    }
+  </script>
+</script>
+
+#### 4.给input 错误时样式
+
+添加 `data-verify-style` 属性
+
+<vuep template="#demo4"></vuep>
+<script v-pre type="text/x-template" id="demo4">
+  <template>
+    <div>
+      <h3 class="example-main-color">date - initial</h3>
+      <div>
+        <input v-model="time"
+               class="example-input"
+               v-verify.initial.change="'required|date:DD/MM/YYYY'"
+               data-verify-dom=".example-error"
+               data-verify-style="example-input-error"
+               placeholder="DD/MM/YYYY"/>
+        <span class="example-error"></span>
+      </div>
+    </div>
+  </template>
+  <script>
+    module.exports = {
+      data () {
+        return {
+          time: '2018-09-24'
         }
       }
     }

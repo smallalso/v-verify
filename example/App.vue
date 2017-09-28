@@ -47,6 +47,9 @@ export default {
         }, {
           title: '使用',
           path: '/usage'
+        }, {
+          title: '介绍',
+          path: '/introduction'
         }]
       }, {
         title: '用例展示',

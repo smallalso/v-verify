@@ -1,5 +1,4 @@
 import event from './event.js'
-import { messages } from './locale/zh_cn.js'
 import { filterRegParams } from './utils.js'
 
 /**
@@ -9,8 +8,8 @@ import { filterRegParams } from './utils.js'
  *  @param {function} fn
 */
 
-export default function directives (Vue, validator, fn) {
-
+export default function directives (Vue, validator, fn, messages) {
+ 
   function dealRegs (regs) {
     if (!regs) {
       throw new function () {
@@ -22,21 +21,55 @@ export default function directives (Vue, validator, fn) {
   }
 
   function dealValue (value, options) {
-    const {regs, error, name} = options
+    const {el, regs, error, name} = options
     const _regs = dealRegs(regs)
-    let _text = ''
+    const _result = []
     if (!_regs) return
     for (let i = 0; i < _regs.length; i++) {
       const reg = _regs[i].trim()
       if (fn(reg, value)) {
-        _text = ''
+        _result.push(true)
         continue
       }
-      _text = getMessage(reg, name)
+      _result.push(false)
       break
+    }    
+    return dealVerification(_result, _regs, options)
+  }
+
+  function dealVerification (_result, _regs, options) {
+    const {el, error, name} = options
+    const _bool = !_result[_result.length - 1]
+    let _text = ''
+    if (_bool) {
+      _text = getMessage(_regs[_result.length - 1].trim(), name)
     }
-    error.innerText = _text
+    if (!error) {
+      if (el.instance && el.instance.message === _text) return
+      if (el.instance && _text !== '') {
+        el.instance.message = _text
+        return
+      }
+      el.instance = Vue.vTips({
+        el: el,
+        remove: !_bool,
+        target: el.instance || null,
+        message: _text
+      })
+    }
+    error && (error.innerText !== _text) && (error.innerText = _text)
+    addErrorClass(_bool, options)
     return _text === ''
+  }
+
+  function addErrorClass (type, options) {
+    const { el, style } = options
+    if (!style || (type && el.className.indexOf(style) !== -1)) return
+    if (!type) {
+      el.className = el.className.replace(style, '').replace(/\s+/gi, ' ')
+      return
+    }
+    el.className += ` ${style}`
   }
 
   function getMessage (reg, value) {
@@ -45,15 +78,12 @@ export default function directives (Vue, validator, fn) {
     return _msg ? _msg(value, _reg[1]) : ''
   }
 
-  function dealSubmit (options) {
+  function verifySubmit (options) {
     const { el, regs, error, name, submit }= options
     if (!submit) return
-    function submitValue (el, regs, error) {
-      return function () {
-        return dealValue(el.value, options)
-      }
-    }
-    event.addEvent(submit, submitValue(el, regs, error)) 
+    event.addEvent(submit, () => {
+      return dealValue(el.value, options)
+    }) 
   }
 
   function bindEvent (options) {
@@ -87,13 +117,15 @@ export default function directives (Vue, validator, fn) {
         regs: _type ? binding.value : binding.value.regs,
         error:  generateParam(el, binding, _type, 'dom'),
         name: generateParam(el, binding, _type, 'name') || '',
+        style: generateParam(el, binding, _type, 'style') || '',
         submit: generateParam(el, binding, _type, 'submit'),
         events: _events.length ? _events : ['change']
       }
-      dealSubmit(options)
+      verifySubmit(options)
       bindEvent(options)
     },
     unbind: function (el, binding) {
+      const _type = typeof binding.value === 'string'
       const _submit = generateParam(el, binding, _type, 'submit')
       if (!_submit) return
       if (event.getListener(_submit)) {

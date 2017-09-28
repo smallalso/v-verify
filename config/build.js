@@ -2,9 +2,14 @@ const fs = require('fs')
 const rollup = require('rollup')
 const configs = require('./rollup.config.js')
 const uglify = require('uglify-js')
+const copy = require('./copy.js')
 
 if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
+}
+
+if (!fs.existsSync('dist/locale')) {
+  fs.mkdirSync('dist/locale')
 }
 
 function buildEntry (builds) {
@@ -69,3 +74,4 @@ function write (config, code) {
 }
 
 buildEntry(Object.keys(configs).map(key => configs[key]))
+copy('src/locale', 'dist/locale')

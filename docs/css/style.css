@@ -589,7 +589,7 @@ span.CodeMirror-selectedtext {
     width: 100%;
   }
   .vuep-editor {
-    height: 400px;
+   max-height: 400px;
   }
 }
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */

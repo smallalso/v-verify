@@ -33,7 +33,7 @@
 </style>
 
 <template>
-    <div>
+    <div id="app">
       <mu-drawer :open="open"
                  :docked="docked"
                  @close="toggleNav">

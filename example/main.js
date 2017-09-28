@@ -24,7 +24,9 @@ Vue.component(iconButton.name, iconButton)
 Vue.component(contentBlock.name, contentBlock)
 
 Vue.use(Compt)
-Vue.use(vVerify)
+Vue.use(vVerify, {
+  el: '.example-content'
+})
 Vue.use(Vuep)
 
 new Vue({

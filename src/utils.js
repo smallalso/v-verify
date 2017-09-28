@@ -1,3 +1,5 @@
+import { parse, format as formatDate } from 'date-fns'
+
 /**
  * javscript data type judgment
  * @param {*} obj 
@@ -24,5 +26,7 @@ function filterRegParams (reg) {
 
 export {
   classOf,
-  filterRegParams
+  filterRegParams,
+  parse,
+  formatDate
 }

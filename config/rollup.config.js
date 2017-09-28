@@ -1,6 +1,7 @@
 const path = require('path')
 const replace = require('rollup-plugin-replace')
 const buble = require('rollup-plugin-buble')
+const nodeResolve = require('rollup-plugin-node-resolve')
 const resolve = _path => path.resolve(__dirname, '../', _path)
 const version = require('../package.json').version
 
@@ -19,6 +20,7 @@ function genConfig (opts) {
     },
     plugins: [
       replace({ __VERSION__: version }),
+      nodeResolve(),
       buble()
     ]
   }
