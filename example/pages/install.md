@@ -1,9 +1,15 @@
 
-<center>
-  <img src="http://owgk3x2u9.bkt.clouddn.com/v-verify.svg" width="240" />
-</center>
+## V-Verify
+
+<p align="center">
+  <a href="https://joinyi.github.io/v-verify/" target="_blank">
+    <img width="200" src="http://owgk3x2u9.bkt.clouddn.com/v-verify.svg" />
+  </a>
+</p>
 
 v-verify 是 **vue.js** 的表单验证插件，它主要利用 `vue.js` 指令将验证逻辑放进 `html` 中，它主要针对用用户输入信息的验证处理。
+
+<img width="600" src="http://owgk3x2u9.bkt.clouddn.com/v-verify.jpg">
 
 ### 特性
 
@@ -28,11 +34,3 @@ npm install --save v-verify
 yarn add v-verify
 
 ```
-
-### 使用 script 标签
-
-```html
-<script src="path/v-verify.js"></script>
-```
-
-> 这里的 **path** 需要替换成实际路径
