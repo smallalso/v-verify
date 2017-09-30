@@ -20,13 +20,53 @@ function classOf (obj) {
 
 function filterRegParams (reg) {
   if (reg.indexOf(':') === -1) return [reg]
-  const _reg = reg.split(':')
-  return [_reg.splice(0, 1), _reg]
+  const _reg = reg.split(':').map(item => item.trim())
+  return [_reg.shift(), _reg]
+}
+
+function verifyValue (reg, value, params) {
+  const _regType = classOf(reg)
+  let _fn = null
+  switch (_regType) {
+    case 'regexp':
+      _fn = (value) => {
+        if (!reg.test(value)) {
+          return false
+        }
+        return true
+      }
+      break
+    case 'array':
+      _fn = (value) => {
+        let _bool = true
+        for (let i = 0; i < reg.length; i++) {
+          if (_typeof(reg[i]) === 'regexp') {
+            _bool = reg[i].test(value)
+          }
+          if (!_bool) break
+        }
+        return _bool
+      }
+      break
+    case 'function':
+      _fn = (value) => {
+        return params ? reg(value, params) : reg(value)
+      }
+      break
+    default:
+      _fn = (value) => {
+        throw new function () {
+          return 'type wrong in the config file'
+        }()
+      }
+  }
+  return _fn(value)
 }
 
 export {
   classOf,
   filterRegParams,
   parse,
+  verifyValue,
   formatDate
 }

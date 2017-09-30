@@ -12,6 +12,7 @@ function addEvent (type, fn) {
   }
 
   listener[type].push(fn)
+  return listener
 }
 
 function fireEvent (type) {
@@ -43,6 +44,7 @@ function removeEvent (type, fn) {
   } else {
     delete listener[type]
   }
+  return listener
 }
 
 function getListener (type) {
