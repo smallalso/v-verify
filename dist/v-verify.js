@@ -2550,8 +2550,47 @@ function classOf (obj) {
 
 function filterRegParams (reg) {
   if (reg.indexOf(':') === -1) { return [reg] }
-  var _reg = reg.split(':');
-  return [_reg.splice(0, 1), _reg]
+  var _reg = reg.split(':').map(function (item) { return item.trim(); });
+  return [_reg.shift(), _reg]
+}
+
+function verifyValue (reg, value, params) {
+  var _regType = classOf(reg);
+  var _fn = null;
+  switch (_regType) {
+    case 'regexp':
+      _fn = function (value) {
+        if (!reg.test(value)) {
+          return false
+        }
+        return true
+      };
+      break
+    case 'array':
+      _fn = function (value) {
+        var _bool = true;
+        for (var i = 0; i < reg.length; i++) {
+          if (_typeof(reg[i]) === 'regexp') {
+            _bool = reg[i].test(value);
+          }
+          if (!_bool) { break }
+        }
+        return _bool
+      };
+      break
+    case 'function':
+      _fn = function (value) {
+        return params ? reg(value, params) : reg(value)
+      };
+      break
+    default:
+      _fn = function (value) {
+        throw new function () {
+          return 'type wrong in the config file'
+        }()
+      };
+  }
+  return _fn(value)
 }
 
 var date = function (value, format$$1) {
@@ -2631,6 +2670,7 @@ function addEvent (type, fn) {
   }
 
   listener[type].push(fn);
+  return listener
 }
 
 function fireEvent (type) {
@@ -2662,6 +2702,7 @@ function removeEvent (type, fn) {
   } else {
     delete listener[type];
   }
+  return listener
 }
 
 function getListener (type) {
@@ -2675,51 +2716,13 @@ var event = {
   getListener: getListener
 };
 
-function verifyValue (reg, value, params) {
-  var _regType = classOf(reg);
-  var _fn = null;
-  switch (_regType) {
-    case 'regexp':
-      _fn = function (value) {
-        if (!reg.test(value)) {
-          return false
-        }
-        return true
-      };
-      break
-    case 'array':
-      _fn = function (value) {
-        var _bool = true;
-        for (var i = 0; i < reg.length; i++) {
-          if (_typeof(reg[i]) === 'regexp') {
-            _bool = reg[i].test(value);
-          }
-          if (!_bool) { break }
-        }
-        return _bool
-      };
-      break
-    case 'function':
-      _fn = function (value) {
-        return params ? reg(value, params ) : reg(value)
-      };
-      break
-    default:
-      _fn = function (value) {
-        throw new function () {
-          return 'type wrong in the config file'
-        }()
-      };
-  }
-  return _fn(value)
-}
-
 /**
  * generate verify function for all verifies
  * @param {Object} config 
  * @param {function} tips 
  */
-function verifyFn (validators) {
+
+function validate (validators) {
 
   this.verify = function (validator, value) {
     var _validator = filterRegParams(validator);
@@ -3030,9 +3033,9 @@ function install (Vue, options) {
   var validators = Object.assign(validator, options.validators = {});
   var messages = Object.assign(require('./locale/' + options.lang),  options.messages = {});
   try {
-    Vue.validator = Vue.prototype.$validator = new verifyFn(validators);
+    Vue.validator = Vue.prototype.$validator = new validate(validators);
     Vue.vTips = Vue.prototype.$vTips = options.vtips || vTips(Vue, options);
-    directives(Vue, validators, Vue.prototype.$validator.verify, messages);
+    directives(Vue, validators, Vue.validator.verify, messages);
   } catch (e) {
     console.error((e + "\nfrom v-verify"));
   }
