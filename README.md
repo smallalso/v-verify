@@ -36,6 +36,9 @@ npm install --save v-verify
 yarn add v-verify
 
 ```
+### 文档
+https://joinyi.github.io/v-verify/
+
 ### 安装
 
 **v-verify** 和其他的 `vue` 插件一样，使用 `Vue.use()` 方法注册。
@@ -131,5 +134,3 @@ Vue.use(vverify, {
        v-verify.input.blur="'required|date'"
        placeholder="YYYY-MM-DD"/>
 ```
-
-好了， 是不是很简单。快去看[基本介绍](/#/introduction)吧
