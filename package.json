@@ -1,6 +1,6 @@
 {
   "name": "v-verify",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a plugin of vue.js for input validate",
   "main": "dist/v-verify.min.js",
   "unpkg": "dist/v-verify.js",
