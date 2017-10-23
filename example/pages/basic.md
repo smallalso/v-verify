@@ -42,7 +42,7 @@
   </script>
 </script>
 
-#### 3.使用dom容器展示 错误信息
+#### 3.使用dom容器展示 错误信息 (支持添加icon)
 
 添加 `data-verify-dom` 属性
 
@@ -57,7 +57,9 @@
                v-verify.initial.change="'required|date:DD/MM/YYYY'"
                data-verify-dom=".example-error"
                placeholder="DD/MM/YYYY"/>
-        <span class="example-error"></span>
+        <span class="example-error">
+          <i class="icon-warn iconfont"></i>
+        </span>
       </div>
     </div>
   </template>
@@ -88,7 +90,9 @@
                data-verify-dom=".example-error"
                data-verify-style="example-input-error"
                placeholder="DD/MM/YYYY"/>
-        <span class="example-error"></span>
+        <span class="example-error">
+          <i class="icon-warn iconfont"></i>
+        </span>
       </div>
     </div>
   </template>

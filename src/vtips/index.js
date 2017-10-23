@@ -55,7 +55,7 @@ export default function (Vue, config) {
   
   const vTips = (options = {}) => {
     const instance = options.target || getAnInstance()
-    const container = getContainer()
+    const container = options.el.parentNode
     if (options.remove) {
       instance.close(options.target)
       return

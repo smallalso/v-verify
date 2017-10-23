@@ -35,7 +35,9 @@
                 data-verify-dom=".date-error"
                 data-verify-submit="demo2"
                 placeholder="电话"/>
-          <span class="date-error example-error"></span>
+          <span class="date-error example-error">
+            <i class="icon-warn iconfont"></i>
+          </span>
         </p>
       </div>
 

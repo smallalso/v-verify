@@ -33,33 +33,42 @@ export default function directives (Vue, validator, fn, messages) {
       }
       _result.push(false)
       break
-    }    
+    }
     return dealVerification(_result, _regs, options)
   }
 
   function dealVerification (_result, _regs, options) {
     const {el, error, name} = options
     const _bool = !_result[_result.length - 1]
-    let _text = ''
-    if (_bool) {
-      _text = getMessage(_regs[_result.length - 1].trim(), name)
-    }
+    let _text = _bool ? getMessage(_regs[_result.length - 1].trim(), name) : ''
     if (!error) {
-      if (el.instance && el.instance.message === _text) return
-      if (el.instance && _text !== '') {
-        el.instance.message = _text
-        return
-      }
-      el.instance = Vue.vTips({
-        el: el,
-        remove: !_bool,
-        target: el.instance || null,
-        message: _text
-      })
+      tipsError(el, _text, !_bool)
+      return  !_bool
     }
-    error && (error.innerText !== _text) && (error.innerText = _text)
+    errorDisplay(error, _bool)
+    if (error.node) {
+      (error.node !== _text) && (error.lastChild.replaceData(0, error.node.length, _text))
+      error.node = _text
+      return !_bool
+    }
+    error.node = document.createTextNode(_text)
+    error.appendChild(error.node)
     addErrorClass(_bool, options)
-    return _text === ''
+    return !_bool    
+  }
+
+  function tipsError(el, _text, _bool) {
+    if (el.instance && el.instance.message === _text) return
+    if (el.instance && _text !== '') {
+      el.instance.message = _text
+      return
+    }
+    el.instance = Vue.vTips({
+      el: el,
+      remove: _bool,
+      target: el.instance || null,
+      message: _text
+    })
   }
 
   function addErrorClass (type, options) {
@@ -72,6 +81,11 @@ export default function directives (Vue, validator, fn, messages) {
     el.className += ` ${style}`
   }
 
+  function errorDisplay (error, boolean) {
+    if (!error) return
+    error.style.display = boolean ? 'block' : 'none'
+  }
+
   function getMessage (reg, value) {
     const _reg = filterRegParams(reg)
     const _msg = messages[_reg[0]]
@@ -79,7 +93,7 @@ export default function directives (Vue, validator, fn, messages) {
   }
 
   function verifySubmit (options) {
-    const { el, regs, error, name, submit }= options
+    const { el, submit }= options
     if (!submit) return
     event.addEvent(submit, () => {
       return dealValue(el.value, options)
@@ -87,7 +101,7 @@ export default function directives (Vue, validator, fn, messages) {
   }
 
   function bindEvent (options) {
-    const { el, regs, error, name, events } = options
+    const { el, events } = options
     events.forEach(item => {
       if (item === 'initial') {
         dealValue(el.value, options)
@@ -103,7 +117,11 @@ export default function directives (Vue, validator, fn, messages) {
     const data = type ? el.getAttribute(`data-verify-${param}`) : binding.value[param]
 
     if (param === 'dom') {
-      return data ? el.parentNode.querySelector(data) : null
+      if (!data) return null
+      while (el.parentNode && !el.parentNode.querySelector(data)) {
+        el = el.parentNode
+      }
+      return el.parentNode.querySelector(data) || null
     }
     return data ? data : null
   }
@@ -113,7 +131,7 @@ export default function directives (Vue, validator, fn, messages) {
       const _type = typeof binding.value === 'string'
       const _events = Object.keys(binding.modifiers)
       const options = {
-        el: el,
+        el: el.querySelector('input') || el.querySelector('input') || el.querySelector('textarea') || el,
         regs: _type ? binding.value : binding.value.regs,
         error:  generateParam(el, binding, _type, 'dom'),
         name: generateParam(el, binding, _type, 'name') || '',
@@ -121,6 +139,8 @@ export default function directives (Vue, validator, fn, messages) {
         submit: generateParam(el, binding, _type, 'submit'),
         events: _events.length ? _events : ['change']
       }
+      // 初始化隐藏 error 元素
+      errorDisplay(options.error, false)
       verifySubmit(options)
       bindEvent(options)
     },
