@@ -57,7 +57,7 @@ export default function directives (Vue, validator, fn, messages) {
     return !_bool    
   }
 
-  function tipsError(el, _text, _bool) {
+  function tipsError (el, _text, _bool) {
     if (el.instance && el.instance.message === _text) return
     if (el.instance && _text !== '') {
       el.instance.message = _text

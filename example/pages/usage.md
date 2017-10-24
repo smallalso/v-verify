@@ -52,7 +52,6 @@ Vue.use(vverify, {
 
 ```javascript
 Vue.use(vverify, {
-  el: '.markdown-body', // dom 容器，如何你使用默认弹窗
   lang: 'zh-cn', // 提示语言
   vtips: Function, // 自定义提示方法
   validators: { // 自定义验证器
