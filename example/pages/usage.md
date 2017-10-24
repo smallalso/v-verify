@@ -30,8 +30,10 @@ Vue.use(vverify, {
 
 ```javascript
 Vue.use(vverify, {
-  lang: 'zh-cn', // 提示语言
-  vtips: Function, // 自定义提示方法(v-verify提供了默认的弹窗，非必填项)
+  lang: 'zh-cn', // 提示语言 默认 中文
+  icon: '', // String 错误提示 icon 样式
+  errorClass: '', // 错误消息样式
+  mode: '', // v-verify 提供了 tip 和 insert 两种错误展示方式
   validators: { // 自定义验证器
     email: RegExp|[RegExp, ...]|Function,
     ...
@@ -44,7 +46,7 @@ Vue.use(vverify, {
 ```
 
 - language: `v-verify` 为公共验证器提供了 `zh-cn` 、`en-us`两种错误提示语言, 默认 `zh-cn`
-- vtips: `v-verify` 提供了默认的验证器不通过时消息提时，当你自定义了将覆盖默认的
+- mode: `v-verify` 提供了 tip 和 insert 两种错误展示方式
 
 ### 自定义验证器
 
@@ -53,7 +55,9 @@ Vue.use(vverify, {
 ```javascript
 Vue.use(vverify, {
   lang: 'zh-cn', // 提示语言
-  vtips: Function, // 自定义提示方法
+  mode: 'insert',
+  errorClass: 'example-error',
+  icon: 'icon-warn iconfont',
   validators: { // 自定义验证器
     zing: (value) => {
       return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)

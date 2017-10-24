@@ -18,11 +18,9 @@
         <p>
           <input class="example-input"
                 v-verify.input.blur="'required|date:YYYY-MM-DD'"
-                data-verify-dom=".date-error"
                 data-verify-style="example-input-error"
                 data-verify-submit="demo2"
                 placeholder="YYYY-MM-DD"/>
-          <span class="date-error example-error"></span>
         </p>
       </div>
 
@@ -32,12 +30,8 @@
           <input class="example-input"
                  name="电话"
                 v-verify.input.blur="'required|numberic|len:11|max:11'"
-                data-verify-dom=".date-error"
                 data-verify-submit="demo2"
                 placeholder="电话"/>
-          <span class="date-error example-error">
-            <i class="icon-warn iconfont"></i>
-          </span>
         </p>
       </div>
 
@@ -46,10 +40,8 @@
         <p>
           <input class="example-input"
                 v-verify.input.blur="'required'"
-                data-verify-dom=".date-error"
                 data-verify-submit="demo2"
                 placeholder="姓名"/>
-          <span class="date-error example-error"></span>
         </p>
       </div>
 
@@ -105,13 +97,11 @@
           <input class="example-input"
                 v-verify.input.blur="{
                   regs: 'required|date:YYYY/MM/DD',
-                  dom: '.date-error',
                   submit: 'demo3',
                   style: 'example-input-error',
                   name: '日期'
                 }"
                 placeholder="YYYY/MM/DD"/>
-          <span class="date-error example-error"></span>
         </p>
       </div>
 
@@ -121,12 +111,10 @@
           <input class="example-input"
                 v-verify.input.blur="{
                   regs: 'required|numberic|len:11|max:11',
-                  dom: '.date-error',
                   submit: 'demo3',
                   name: '电话'
                 }"
                 placeholder="电话"/>
-          <span class="date-error example-error"></span>
         </p>
       </div>
 
@@ -136,12 +124,11 @@
           <input class="example-input"
                 v-verify.input.blur="{
                   regs: 'required',
-                  dom: '.date-error',
+                  mode: 'tip',
                   submit: 'demo3',
                   name: '姓名'
                 }"
                 placeholder="姓名"/>
-          <span class="date-error example-error"></span>
         </p>
       </div>
 

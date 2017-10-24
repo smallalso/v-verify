@@ -10,6 +10,10 @@
     }
   }
   &-error {
+    font-size: 11px;
+    color: #ff3860;
+    margin:10px 0!important;
+    vertical-align: middle;
     & > i {
       font-size: 11px;
       color: #fff;
@@ -23,11 +27,6 @@
       line-height: 10px;
       border-radius: 50%;
     }
-    font-size: 11px;
-    color: #ff3860;
-    margin: 10px 0 10px 0;
-    display: inline-block;
-    vertical-align: middle;
   }
   &-btn {
     font-size: 14px;

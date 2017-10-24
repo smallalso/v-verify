@@ -25,7 +25,9 @@ Vue.component(contentBlock.name, contentBlock)
 
 Vue.use(Compt)
 Vue.use(vVerify, {
-  el: '.example-content'
+  mode: 'insert',
+  errorClass: 'example-error',
+  icon: 'icon-warn iconfont'
 })
 Vue.use(Vuep)
 

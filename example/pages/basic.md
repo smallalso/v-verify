@@ -1,5 +1,17 @@
 ### 基本示例
 
+### 开始之前
+
+```javascript
+import vVerify from 'v-verify'
+
+Vue.use(vVerify, {
+  mode: 'insert',
+  errorClass: 'example-error',
+  icon: 'icon-warn iconfont'
+})
+```
+
 #### 1.使用 `input` `blur` 触发验证
 
 <vuep template="#demo1"></vuep>
@@ -55,11 +67,7 @@
         <input v-model="time"
                class="example-input"
                v-verify.initial.change="'required|date:DD/MM/YYYY'"
-               data-verify-dom=".example-error"
                placeholder="DD/MM/YYYY"/>
-        <span class="example-error">
-          <i class="icon-warn iconfont"></i>
-        </span>
       </div>
     </div>
   </template>
@@ -87,12 +95,8 @@
         <input v-model="time"
                class="example-input"
                v-verify.initial.change="'required|date:DD/MM/YYYY'"
-               data-verify-dom=".example-error"
                data-verify-style="example-input-error"
                placeholder="DD/MM/YYYY"/>
-        <span class="example-error">
-          <i class="icon-warn iconfont"></i>
-        </span>
       </div>
     </div>
   </template>
