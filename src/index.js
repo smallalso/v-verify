@@ -1,7 +1,6 @@
 import validator from './validator/index.js'
 import validate from './verify.js'
 import directives from './directive.js'
-import vTips from './vtips/index.js'
 
 /**
  * VUE plugin registed function
@@ -15,8 +14,13 @@ function install (Vue, options = {}) {
   const messages = Object.assign(require('./locale/' + options.lang),  options.messages = {})
   try {
     Vue.validator = Vue.prototype.$validator = new validate(validators)
-    Vue.vTips = Vue.prototype.$vTips = options.vtips || vTips(Vue, options)
-    directives(Vue, validators, Vue.validator.verify, messages)
+    directives(Vue, {
+      mode: options.mode,
+      icon: options.icon,
+      errorClass: options.errorClass || null,
+      verify: Vue.validator.verify,
+      messages: messages
+    })
   } catch (e) {
     console.error(`${e}\nfrom v-verify`)
   }

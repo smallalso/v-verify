@@ -1,4 +1,6 @@
 import event from './event.js'
+import errorRender from './error.js'
+import vTips from './vtips/index.js'
 import { filterRegParams } from './utils.js'
 
 /**
@@ -8,8 +10,9 @@ import { filterRegParams } from './utils.js'
  *  @param {function} fn
 */
 
-export default function directives (Vue, validator, fn, messages) {
- 
+export default function (Vue, config) {
+  const disError = errorRender(Vue, config)
+  const tipError = vTips(Vue, config)
   function dealRegs (regs) {
     if (!regs) {
       throw new function () {
@@ -27,7 +30,7 @@ export default function directives (Vue, validator, fn, messages) {
     if (!_regs) return
     for (let i = 0; i < _regs.length; i++) {
       const reg = _regs[i].trim()
-      if (fn(reg, value)) {
+      if (config.verify(reg, value)) {
         _result.push(true)
         continue
       }
@@ -38,23 +41,42 @@ export default function directives (Vue, validator, fn, messages) {
   }
 
   function dealVerification (_result, _regs, options) {
-    const {el, error, name} = options
     const _bool = !_result[_result.length - 1]
+    const {bind, el, error, name} = options
+    const _mode = config.mode || options.mode || (error || 'insert')
     let _text = _bool ? getMessage(_regs[_result.length - 1].trim(), name) : ''
-    if (!error) {
+    if (_mode === 'insert') {
+      insertError(bind, _text, !_bool)
+    } else if (_mode === 'tip') {
       tipsError(el, _text, !_bool)
-      return  !_bool
+    } else {
+      putError(error, _text, _bool)
     }
+    addErrorClass(_bool, options)
+    return !_bool    
+  }
+
+  function putError (error, _text, _bool) {
     errorDisplay(error, _bool)
     if (error.node) {
       (error.node !== _text) && (error.lastChild.replaceData(0, error.node.length, _text))
       error.node = _text
-      return !_bool
     }
     error.node = document.createTextNode(_text)
     error.appendChild(error.node)
-    addErrorClass(_bool, options)
-    return !_bool    
+  }
+
+  function insertError (el, _text, _bool) {
+    if (el.instance && el.instance.message === _text) return
+    if (el.instance && _text !== '') {
+      el.instance.message = _text
+      return
+    }
+    el.instance = disError({
+      el: el,
+      target: el.instance || null,
+      message: _text
+    })
   }
 
   function tipsError (el, _text, _bool) {
@@ -63,7 +85,7 @@ export default function directives (Vue, validator, fn, messages) {
       el.instance.message = _text
       return
     }
-    el.instance = Vue.vTips({
+    el.instance = tipError({
       el: el,
       remove: _bool,
       target: el.instance || null,
@@ -88,7 +110,7 @@ export default function directives (Vue, validator, fn, messages) {
 
   function getMessage (reg, value) {
     const _reg = filterRegParams(reg)
-    const _msg = messages[_reg[0]]
+    const _msg = config.messages[_reg[0]]
     return _msg ? _msg(value, _reg[1]) : ''
   }
 
@@ -131,11 +153,13 @@ export default function directives (Vue, validator, fn, messages) {
       const _type = typeof binding.value === 'string'
       const _events = Object.keys(binding.modifiers)
       const options = {
+        bind: el,
         el: el.querySelector('input') || el.querySelector('input') || el.querySelector('textarea') || el,
         regs: _type ? binding.value : binding.value.regs,
         error:  generateParam(el, binding, _type, 'dom'),
         name: generateParam(el, binding, _type, 'name') || '',
         style: generateParam(el, binding, _type, 'style') || '',
+        mode: generateParam(el, binding, _type, 'mode') || config.mode || null,
         submit: generateParam(el, binding, _type, 'submit'),
         events: _events.length ? _events : ['change']
       }

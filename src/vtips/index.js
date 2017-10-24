@@ -21,22 +21,17 @@ export default function (Vue, config) {
     }
   }
 
-  function getElPosition (el, container) {
-    const _height = el.clientHeight
+  function getElPosition (el) {
+    if (window.getComputedStyle && (el.parentNode && !el.parentNode.style.position)) {
+      const _position = window.getComputedStyle(el.parentNode).position
+      if (!_position || _position === 'static') {
+        el.parentNode.style.position = 'relative'
+      }
+    }
     return {
-      top: el.offsetTop - _height - 12,
+      top: el.offsetTop - 36,
       left: el.offsetLeft
     }
-  }
-
-  const getContainer = function () {
-    let container = document.body
-    const el = document.querySelector(config.el) || container
-    container = el.children[0] || el
-    if (!container.style.position) {
-      container.style.position = 'relative'
-    }
-    return container
   }
 
   const removeDom = target => {
@@ -62,7 +57,7 @@ export default function (Vue, config) {
     }
 
     instance.message = typeof options === 'string' ? options : options.message
-    instance.position = options.el ? getElPosition(options.el, container) : options.position
+    instance.position = options.el ? getElPosition(options.el) : options.position
     instance.exist = false
     container.appendChild(instance.$el)
     Vue.nextTick(function () {
