@@ -71,8 +71,7 @@ Vue.use(vverify, {
 
 ```javascript
 Vue.use(vverify, {
-  el: '.markdown-body', // dom 容器，如何你使用默认弹窗
-  lang: 'zh-cn', // 提示语言
+  lang: 'zh-cn', // 提示语言 默认中文
   vtips: Function, // 自定义提示方法
   validators: { // 自定义验证器
     email: RegExp|[RegExp, ...]|Function,
@@ -87,7 +86,6 @@ Vue.use(vverify, {
 
 - language: `v-verify` 为公共验证器提供了 `zh-cn` 、`en-us`两种错误提示语言, 默认 `zh-cn`
 - vtips: `v-verify` 提供了默认的验证器不通过时消息提时，当你自定义了将覆盖默认的
-- el 由于 `vue` 应用基本都为单页面应用，如果没有el， 选项，vtips将直接插在 `document.body` 中，这样在单页面切换的时候，tips弹窗会出现在其他页面。所以el选项应该为 <router-view></router-view>的父元素
 
 ### 自定义验证器
 
@@ -95,7 +93,6 @@ Vue.use(vverify, {
 
 ```javascript
 Vue.use(vverify, {
-  el: '.markdown-body', // dom 容器，如何你使用默认弹窗
   lang: 'zh-cn', // 提示语言
   vtips: Function, // 自定义提示方法
   validators: { // 自定义验证器
