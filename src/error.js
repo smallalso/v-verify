@@ -2,14 +2,14 @@
 export default function (Vue, config) {
   const errorList = []
   const ErrorConstructor = Vue.extend({
-    template: '<p :class="[errorClass]" v-if="message"><i :class="[icon]"></i>{{message}}</p>',
+    template: '<div :class="[errorClass]" v-if="message"><i :class="[errorIcon]"></i><span>{{message}}</span></div>',
     data: () => {
       return {
         message: null
       }
     },
     props: {
-      icon: String,
+      errorIcon: String,
       errorClass: String  
     }
   })
@@ -31,9 +31,8 @@ export default function (Vue, config) {
 
     instance.message = options.message
     instance.errorClass = options.errorClass || config.errorClass
-    instance.icon = options.icon || config.icon
+    instance.errorIcon = options.errorIcon || config.errorIcon
     container.appendChild(instance.$el)
-    console.log(instance.$el, 234)
     return instance
   }
 

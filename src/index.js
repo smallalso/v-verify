@@ -10,14 +10,15 @@ import directives from './directive.js'
 
 function install (Vue, options = {}) {
   options.lang = options.lang || 'zh_cn'
-  const validators = Object.assign(validator, options.validators = {})
-  const messages = Object.assign(require('./locale/' + options.lang),  options.messages = {})
+  const validators = Object.assign(validator, options.validators)
+  const messages = Object.assign(require('./locale/' + options.lang),  options.messages)
   try {
     Vue.validator = Vue.prototype.$validator = new validate(validators)
     directives(Vue, {
       mode: options.mode,
-      icon: options.icon,
+      errorIcon: options.errorIcon,
       errorClass: options.errorClass || null,
+      errorForm: options.errorForm,
       verify: Vue.validator.verify,
       messages: messages
     })

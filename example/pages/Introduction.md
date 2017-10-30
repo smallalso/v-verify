@@ -1,6 +1,6 @@
 ### 介绍
 
-**v-verify** 提供了少量的公共验证器、tips提示框组件和两个内置方法。
+**v-verify** 提供了少量的公共验证器、`insert` | `tip` 两种错误展示方法 和两个内置验证方法。
 
 ### 公共验证器
 
@@ -11,6 +11,7 @@ date | format（YYYY-MM-DD、YYYY/MM/DD 等）| 指定格式填写日期
 len | number(字符长度) | 字符长度必须为制定数字
 max | number(字符长度) | 字符长度必须大于制定数字
 min | number(字符长度) | 字符长度必须小于制定数字
+email | 无 | 邮箱格式
 numberic | 无 | 必须填写数字
 identity | 无 | 中国身份证号验证
 
@@ -58,7 +59,6 @@ Vue.$validator.verifyAll(name)
                 v-verify.input.blur="{
                   regs: 'required|date:YYYY/MM/DD',
                   submit: 'demo4',
-                  style: 'example-input-error',
                   name: '日期'
                 }"
                 placeholder="YYYY/MM/DD"/>
@@ -71,6 +71,7 @@ Vue.$validator.verifyAll(name)
           <input class="example-input"
                 v-verify.input.blur="{
                   regs: 'required|numberic|len:11',
+                  mode: 'tip',
                   submit: 'demo4',
                   name: '电话'
                 }"
@@ -102,11 +103,6 @@ Vue.$validator.verifyAll(name)
 
   <script>
     module.exports = {
-      data () {
-        return {
-          time: '2017/09/09'
-        }
-      },
       methods: {
         submitData() {
           const result = this.$validator.verifyAll('demo4')

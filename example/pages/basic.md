@@ -8,7 +8,16 @@ import vVerify from 'v-verify'
 Vue.use(vVerify, {
   mode: 'insert',
   errorClass: 'example-error',
-  icon: 'icon-warn iconfont'
+  errorForm: 'example-form-error',
+  errorIcon: 'icon-warn iconfont',
+  validators: { // 自定义验证器
+    zing: (value) => {
+      return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)
+    }
+  },
+  messages: { // 验证器消息提示
+    zing: (name) => `${name}必须以@zing.com结尾`
+  }
 })
 ```
 
@@ -54,9 +63,7 @@ Vue.use(vVerify, {
   </script>
 </script>
 
-#### 3.使用dom容器展示 错误信息 (支持添加icon)
-
-添加 `data-verify-dom` 属性
+#### 3.使用tip模式展示 错误信息
 
 <vuep template="#demo3"></vuep>
 <script v-pre type="text/x-template" id="demo3">
@@ -66,7 +73,11 @@ Vue.use(vVerify, {
       <div>
         <input v-model="time"
                class="example-input"
-               v-verify.initial.change="'required|date:DD/MM/YYYY'"
+               v-verify.initial.change="{
+                 regs: 'required|date:DD/MM/YYYY',
+                 mode: 'tip',
+                 name: '日期'
+                }"
                placeholder="DD/MM/YYYY"/>
       </div>
     </div>
@@ -82,9 +93,7 @@ Vue.use(vVerify, {
   </script>
 </script>
 
-#### 4.给input 错误时样式
-
-添加 `data-verify-style` 属性
+#### 4.使用自定义验证器
 
 <vuep template="#demo4"></vuep>
 <script v-pre type="text/x-template" id="demo4">
@@ -92,11 +101,13 @@ Vue.use(vVerify, {
     <div>
       <h3 class="example-main-color">date - initial</h3>
       <div>
-        <input v-model="time"
+        <input v-model="email"
                class="example-input"
-               v-verify.initial.change="'required|date:DD/MM/YYYY'"
-               data-verify-style="example-input-error"
-               placeholder="DD/MM/YYYY"/>
+               v-verify.initial.change.blur="{
+                 regs: 'required|email|zing',
+                 name: '邮箱'
+               }"
+               placeholder="xxx@zing.com"/>
       </div>
     </div>
   </template>
@@ -104,7 +115,7 @@ Vue.use(vVerify, {
     module.exports = {
       data () {
         return {
-          time: '2018-09-24'
+          email: 'hu141418@gmail.com'
         }
       }
     }

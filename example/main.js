@@ -27,7 +27,16 @@ Vue.use(Compt)
 Vue.use(vVerify, {
   mode: 'insert',
   errorClass: 'example-error',
-  icon: 'icon-warn iconfont'
+  errorForm: 'example-form-error',
+  errorIcon: 'icon-warn iconfont',
+  validators: { // 自定义验证器
+    zing: (value) => {
+      return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)
+    }
+  },
+  messages: { // 验证器消息提示
+    zing: (name) => `${name}必须以@zing.com结尾`
+  }
 })
 Vue.use(Vuep)
 

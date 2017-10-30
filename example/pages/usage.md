@@ -14,8 +14,17 @@ Vue.use(vverify, config)
 
 ```javascript
 Vue.use(vverify, {
-  validators: {
+  lang: 'zh_cn', // 提示语言 默认 中文
+  mode: 'insert' | 'tip', // v-verify 提供了 tip 和 insert 两种错误展示方式
+  errorClass: '', // 错误消息样式
+  errorIcon: '', // String 错误提示 icon 样式
+  errorForm: '', // 错误消息样式
+  validators: { // 自定义验证器
     email: RegExp|[RegExp, ...]|Function,
+    ...
+  },
+  messages: { // 验证器消息提示
+    email: (filed) => `${filed}不符合指定邮箱格式`, // return 提示信息
     ...
   }
 })
@@ -28,25 +37,16 @@ Vue.use(vverify, {
 
 当自定义了验证器，你最好提供对应的验证提示消息
 
-```javascript
-Vue.use(vverify, {
-  lang: 'zh-cn', // 提示语言 默认 中文
-  icon: '', // String 错误提示 icon 样式
-  errorClass: '', // 错误消息样式
-  mode: '', // v-verify 提供了 tip 和 insert 两种错误展示方式
-  validators: { // 自定义验证器
-    email: RegExp|[RegExp, ...]|Function,
-    ...
-  },
-  messages: { // 验证器消息提示
-    email: (filed) => `${filed}不符合指定邮箱格式`, // return 提示信息
-    ...
-  }
-})
-```
+|    Config Name    |       Default       |     Description    |
+|-------------------|---------------------|--------------------|
+| lang              |        zh_cn        |  消息提示语言，有 `zh_cn` 和 ｀en_us｀ 两种选择，默认 `zh_cn` |
+| mode              |        insert       |  消息提示展示方式，有 ｀insert｀ 和 ｀tip｀ 两种展示方式，默认以全局 config 为准，当指令 `v-verify` 中有指定，则指令覆盖全局 config 中配置。|
+| errorClass        |        null         |  消息提示的样式，如果为 null, 则为默认样式，当指令 `v-verify` 中有指定，则指令覆盖全局 config 中配置
+| errorIcon         |        null         |  消息提示 `icon` 的样式，如果为 null, 则无icon，当指令 `v-verify` 中有指定，则指令覆盖全局 config 中配置|
+| errorForm         |        null         |  errorForm（className） 样式将添加到 `v-verify` 指令上到dom元素上，当指令 `v-verify` 中有指定，则指令覆盖全局 config 中配置｜
+|validators         |        null         | 自定义验证器支持三种形式 `正则表达式` `正则表达式列表` `函数(必须返回布尔值)` |
+| messages          |        null         | 自定义验证器验证消息，和 `validators` 一一对应关系        |
 
-- language: `v-verify` 为公共验证器提供了 `zh-cn` 、`en-us`两种错误提示语言, 默认 `zh-cn`
-- mode: `v-verify` 提供了 tip 和 insert 两种错误展示方式
 
 ### 自定义验证器
 
@@ -57,7 +57,7 @@ Vue.use(vverify, {
   lang: 'zh-cn', // 提示语言
   mode: 'insert',
   errorClass: 'example-error',
-  icon: 'icon-warn iconfont',
+  errorIcon: 'icon-warn iconfont',
   validators: { // 自定义验证器
     zing: (value) => {
       return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)
@@ -87,12 +87,28 @@ Vue.use(vverify, {
 
 ### 使用
 
-在你自定义验证器之后就可以和公共验证器一样使用
+`v-verify` 的使用非常简单, 它提供了最多5个选项但只有 `regs` 是必需的
 
 ```html
 <input class="example-input"
-       v-verify.input.blur="'required|date'"
+       v-verify.input.blur="{
+         regs: 'required|date',
+         mode: 'xxx',
+         name: 'xxx',
+         submit: 'xxx',
+         style: 'xxx'
+       }"
        placeholder="YYYY-MM-DD"/>
 ```
 
-好了， 是不是很简单。快去看[基本介绍](/#/introduction)吧
+其中修饰符 `input` 和 `blur` 是 v-verify 提供的验证触发时机， 当指令 `v-verify` 加在 `vue` 组件上时，不需要添加触发时机修饰符， 但是必需要有 `v-model` 指令。
+
+|  Param Name  | Required | Description |
+|--------|----------|-------------|
+| regs   | 是       | 验证器列表 以符号 竖号 分隔  |
+| mode   | 否       | 验证消息提示，将覆盖全局配置 |
+| name   | 否       | 字段名称，会展示在验证消息中 |
+| submit | 否       | 当需要在提交到服务器前进行二次验证，必需要有submit属性，它的作用相当于标示验证器，具体看[文档](https://joinyi.github.io/v-verify/#/submit) |
+|style   | 否        |将覆盖 全局 errorForm 配置 |
+
+好了， 是不是很简单。快去看[基本用例](https://joinyi.github.io/v-verify/#/basic)吧

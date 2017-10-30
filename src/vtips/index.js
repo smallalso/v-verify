@@ -29,7 +29,7 @@ export default function (Vue, config) {
       }
     }
     return {
-      top: el.offsetTop - 36,
+      top: el.offsetTop - 38,
       left: el.offsetLeft
     }
   }
@@ -57,8 +57,10 @@ export default function (Vue, config) {
     }
 
     instance.message = typeof options === 'string' ? options : options.message
-    instance.position = options.el ? getElPosition(options.el) : options.position
+    instance.position = options.el ? getElPosition(options.el, instance) : options.position
     instance.exist = false
+    instance.errorClass = options.errorClass || config.errorClass
+    instance.errorIcon = options.errorIcon || config.errorIcon
     container.appendChild(instance.$el)
     Vue.nextTick(function () {
       instance.exist = true
