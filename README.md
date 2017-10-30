@@ -11,8 +11,8 @@
 
 v-verify 是 **vue.js** 的表单验证插件，它主要利用 `vue.js` 指令将验证逻辑放进 `html` 中，它主要针对用用户输入信息的验证处理。
 
-<img height="300" src="http://owgk3x2u9.bkt.clouddn.com/QQ20171030-183337-HD.gif">
-<img height="300" src="http://owgk3x2u9.bkt.clouddn.com/QQ20171030-184458-HD.gif">
+<img height="500" src="http://owgk3x2u9.bkt.clouddn.com/QQ20171030-183337-HD.gif">
+<img height="500" src="http://owgk3x2u9.bkt.clouddn.com/QQ20171030-184458-HD.gif">
 
 ### 特性
 
@@ -153,5 +153,7 @@ Vue.use(vverify, {
 | name   | 否       | 字段名称，会展示在验证消息中 |
 | submit | 否       | 当需要在提交到服务器前进行二次验证，必需要有submit属性，它的作用相当于标示验证器，具体看[文档](https://joinyi.github.io/v-verify/#/submit) |
 |style   | 否        |将覆盖 全局 errorForm 配置 |
+
+> 欢迎使用，如果有好的建议或issue,欢迎一起讨论。
 
 好了， 是不是很简单。快去看[基本用例](https://joinyi.github.io/v-verify/#/basic)吧
