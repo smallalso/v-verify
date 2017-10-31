@@ -31,7 +31,7 @@ Vue.use(vVerify, {
   errorIcon: 'icon-warn iconfont',
   validators: { // 自定义验证器
     zing: (value) => {
-      return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)
+      return /^[a-zA-Z0-9_-]+@zing\.com$/.test(value)
     }
   },
   messages: { // 验证器消息提示
