@@ -1,6 +1,7 @@
 import validator from './validator/index.js'
-import validate from './verify.js'
+import Validate from './verify.js'
 import directives from './directive.js'
+import lang from './locale'
 
 /**
  * VUE plugin registed function
@@ -10,17 +11,16 @@ import directives from './directive.js'
 
 function install (Vue, options = {}) {
   options.lang = options.lang || 'zh_cn'
-  const validators = Object.assign(validator, options.validators)
-  const messages = Object.assign(require('./locale/' + options.lang),  options.messages)
+  Object.assign(validator, options.validators)
+  Object.assign(lang[options.lang], options.messages)
   try {
-    Vue.validator = Vue.prototype.$validator = new validate(validators)
+    Vue.validator = Vue.prototype.$validator = new Validate(validator)
     directives(Vue, {
       mode: options.mode,
       errorIcon: options.errorIcon,
       errorClass: options.errorClass || null,
       errorForm: options.errorForm,
-      verify: Vue.validator.verify,
-      messages: messages
+      messages: lang[options.lang]
     })
   } catch (e) {
     console.error(`${e}\nfrom v-verify`)

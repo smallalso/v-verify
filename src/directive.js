@@ -6,8 +6,7 @@ import { filterRegParams } from './utils.js'
 /**
  *  registered directives in VUE for all verifies
  *  @param {Object} Vue
- *  @param {string} name
- *  @param {function} fn
+ *  @param {Object} config
 */
 
 export default function (Vue, config) {
@@ -30,7 +29,7 @@ export default function (Vue, config) {
     if (!_regs) return
     for (let i = 0; i < _regs.length; i++) {
       const reg = _regs[i].trim()
-      if (config.verify(reg, value)) {
+      if (Vue.validator.verify(reg, value)) {
         _result.push(true)
         continue
       }
