@@ -24,6 +24,16 @@ function filterRegParams (reg) {
   return [_reg.shift(), _reg]
 }
 
+function splitRegs (regs) {
+  if (!regs) {
+    throw new function () {
+      return `the directive v-verify value is undefined`
+    }()
+    return
+  }
+  return regs.split('|')
+}
+
 function verifyValue (reg, value, params) {
   const _regType = classOf(reg)
   let _fn = null
@@ -66,6 +76,7 @@ function verifyValue (reg, value, params) {
 export {
   classOf,
   filterRegParams,
+  splitRegs,
   parse,
   verifyValue,
   formatDate

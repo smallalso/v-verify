@@ -1,6 +1,5 @@
 import validator from './validator/index.js'
-import Validate from './verify.js'
-import directives from './directive.js'
+import Directive from './directive.js'
 import lang from './locale'
 
 /**
@@ -14,14 +13,15 @@ function install (Vue, options = {}) {
   Object.assign(validator, options.validators)
   Object.assign(lang[options.lang], options.messages)
   try {
-    Vue.validator = Vue.prototype.$validator = new Validate(validator)
-    directives(Vue, {
+    const directive = new Directive(Vue, {
       mode: options.mode,
       errorIcon: options.errorIcon,
       errorClass: options.errorClass || null,
       errorForm: options.errorForm,
+      validators: validator,
       messages: lang[options.lang]
     })
+    directive.install(Vue)
   } catch (e) {
     console.error(`${e}\nfrom v-verify`)
   }
