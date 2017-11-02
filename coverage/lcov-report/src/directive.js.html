@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/directive.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">src</a> directive.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/154</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/123</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/29</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/106</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201</td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Verify<span class="cstat-no" title="statement not covered" > from './verify.js'<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+import errorR<span class="cstat-no" title="statement not covered" >ender from './error.js</span>'<span class="cstat-no" title="statement not covered" ></span>
+import vTips <span class="cstat-no" title="statement not covered" >from './vtips/index.js'<span class="cstat-no" title="statement not covered" ></span></span>
+import { filt<span class="cstat-no" title="statement not covered" >erRegParams, splitRegs</span> } from '<span class="fstat-no" title="function not covered" >./utils.js'<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+&nbsp;
+/**
+ *  registered directives in VUE for all verifies
+ *  @param {Object} Vue
+ *  @param {Object} config
+*/
+&nbsp;
+export defau<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >lt</span> class Directive e<span class="cstat-no" title="statement not covered" >xtends Verify {</span></span>
+  construct<span class="fstat-no" title="function not covered" >or (Vue, c</span>onfig) {<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    Vue.validator = Vue.prototype.$validator = super(config.validators) </span>
+<span class="cstat-no" title="statement not covered" >    this.config = config</span>
+<span class="cstat-no" title="statement not covered" >    this.disError = errorRender(Vue, config)</span>
+<span class="cstat-no" title="statement not covered" >    this.tipError = vTips(Vue, config)<span class="cstat-no" title="statement not covered" ></span></span>
+  }<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+&nbsp;
+  verifyRegs (value, options) {
+    const {<span class="cstat-no" title="statement not covered" >el, regs, n</span>ame} = <span class="cstat-no" title="statement not covered" >options<span class="cstat-no" title="statement not covered" ></span></span>
+    const _regs = <span class="cstat-no" title="statement not covered" >splitRegs(regs)</span>
+    const _result = <span class="cstat-no" title="statement not covered" >[]</span>
+    if<span class="cstat-no" title="statement not covered" > (!_regs) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+    fo<span class="cstat-no" title="statement not covered" >r (let i = 0; i &lt; _regs.length; i++) {</span>
+      const reg = <span class="cstat-no" title="statement not covered" >_regs[i].trim()</span>
+      if<span class="cstat-no" title="statement not covered" > (this.verify(reg, value)) {</span>
+        _r<span class="cstat-no" title="statement not covered" >esult.push(true)</span>
+        co<span class="cstat-no" title="statement not covered" >ntinue</span>
+      }
+      _r<span class="cstat-no" title="statement not covered" >esult.push(false)</span>
+      br<span class="cstat-no" title="statement not covered" >eak</span>
+    }
+    re<span class="cstat-no" title="statement not covered" >turn this.dealVerifyResult(_result, _regs, options)</span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  dealVerifyResult (_result, _regs, options) {
+    const _bool = <span class="cstat-no" title="statement not covered" >!_result[_result.length - 1]</span>
+    const {bi<span class="cstat-no" title="statement not covered" >nd, el, name}</span> = op<span class="cstat-no" title="statement not covered" >tions<span class="cstat-no" title="statement not covered" ></span></span>
+    const _mode = <span class="cstat-no" title="statement not covered" >options.mode || config.mode || 'insert'</span>
+    let _text = _b<span class="cstat-no" title="statement not covered" >ool ? this.getMessage(_regs[_result.length - 1].trim(), name) : ''</span>
+&nbsp;
+    if<span class="cstat-no" title="statement not covered" > (_mode === 'insert') {</span>
+      th<span class="cstat-no" title="statement not covered" >is.insertError(bind, _text, !_bool)</span>
+    } else if<span class="cstat-no" title="statement not covered" > (_mode === 'tip') {</span>
+      th<span class="cstat-no" title="statement not covered" >is.tipsError(el, _text, !_bool)</span>
+    }
+    th<span class="cstat-no" title="statement not covered" >is.dealFormClass(_bool, options)</span>
+    re<span class="cstat-no" title="statement not covered" >turn !_bool    </span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  insertError (el, _text, _bool) {
+    if<span class="cstat-no" title="statement not covered" > (el.instance &amp;&amp; el.instance.message === _text) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+    if<span class="cstat-no" title="statement not covered" > (el.instance &amp;&amp; _text !== '') {</span>
+      el<span class="cstat-no" title="statement not covered" >.instance.message = _text</span>
+      re<span class="cstat-no" title="statement not covered" >turn</span>
+    }
+    el<span class="cstat-no" title="statement not covered" >.instance = this.disError({</span>
+      el: el,
+      target: el.instance || null,
+      message: _text
+    })
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  tipsError (el, _text, _bool) {
+    if<span class="cstat-no" title="statement not covered" > (el.instance &amp;&amp; el.instance.message === _text) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+    if<span class="cstat-no" title="statement not covered" > (el.instance &amp;&amp; _text !== '') {</span>
+      el<span class="cstat-no" title="statement not covered" >.instance.message = _text</span>
+      re<span class="cstat-no" title="statement not covered" >turn</span>
+    }
+    el<span class="cstat-no" title="statement not covered" >.instance = this.tipError({</span>
+      el: el,
+      remove: _bool,
+      target: el.instance || null,
+      message: _text
+    })
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  dealFormClass (type, options) {
+    const {<span class="cstat-no" title="statement not covered" > el, style </span>} = opti<span class="cstat-no" title="statement not covered" >ons</span>
+    if<span class="cstat-no" title="statement not covered" > (!style || (type &amp;&amp; el.className.indexOf(style) !== -1)) <span class="cstat-no" title="statement not covered" >return</span></span>
+    if<span class="cstat-no" title="statement not covered" > (!type) {</span>
+      el<span class="cstat-no" title="statement not covered" >.className = el.className.replace(style, '').replace(/\s+/gi, ' ')</span>
+      re<span class="cstat-no" title="statement not covered" >turn</span>
+    }
+    el<span class="cstat-no" title="statement not covered" >.className += ` ${style}`</span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  getMessage (reg, value) {
+    const _reg = <span class="cstat-no" title="statement not covered" >filterRegParams(reg)</span>
+    const _msg = <span class="cstat-no" title="statement not covered" >this.config.messages[_reg[0]]</span>
+&nbsp;
+    re<span class="cstat-no" title="statement not covered" >turn _msg ? _msg(value, _reg[1]) : ''</span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  bindSubmit (options) {
+    const {<span class="cstat-no" title="statement not covered" > el, submit</span> } = opti<span class="cstat-no" title="statement not covered" >ons</span>
+    if<span class="cstat-no" title="statement not covered" > (!submit) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+    const self = <span class="cstat-no" title="statement not covered" >this</span>
+    th<span class="cstat-no" title="statement not covered" >is.addEvent(submit, ()<span class="fstat-no" title="function not covered" > =</span>&gt; {</span>
+      re<span class="cstat-no" title="statement not covered" >turn self.verifyEvent(options)</span>
+    }) 
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  verifyEvent (options) {
+    const {<span class="cstat-no" title="statement not covered" > el } = opt</span>ions
+    const _setValue = <span class="cstat-no" title="statement not covered" >el.dataset.verifyVal</span>
+    let _value = el<span class="cstat-no" title="statement not covered" >.value</span>
+    if<span class="cstat-no" title="statement not covered" > (_setValue !== 'null' &amp;&amp; _setValue !== 'undefined' &amp;&amp; _setValue) {</span>
+      _v<span class="cstat-no" title="statement not covered" >alue = _setValue</span>
+    }
+    re<span class="cstat-no" title="statement not covered" >turn this.verifyRegs(_value, options)</span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  bindEvent (options) {<span class="cstat-no" title="statement not covered" ></span>
+    const {<span class="cstat-no" title="statement not covered" > el, events</span> } = opti<span class="cstat-no" title="statement not covered" >ons</span>
+    ev<span class="cstat-no" title="statement not covered" >ents.forEach(it<span class="fstat-no" title="function not covered" >em</span> =&gt; {</span>
+      if<span class="cstat-no" title="statement not covered" > (item === 'initial') {</span>
+        re<span class="cstat-no" title="statement not covered" >turn this.verifyEvent(options)</span>
+      }
+      if<span class="cstat-no" title="statement not covered" > (!this.isForm(el)) retu<span class="cstat-no" title="statement not covered" >rn</span></span>
+      el<span class="cstat-no" title="statement not covered" >.addEventListener(item, (e<span class="fstat-no" title="function not covered" >) </span>=&gt; {</span>
+        re<span class="cstat-no" title="statement not covered" >turn this.verifyEvent(options)</span>
+      })
+    })
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  isForm (el) {
+    if<span class="cstat-no" title="statement not covered" > (!el) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+    let isForm = fa<span class="cstat-no" title="statement not covered" >lse</span>
+    const Form = <span class="cstat-no" title="statement not covered" >['input', 'textarea']</span>
+    if<span class="cstat-no" title="statement not covered" > (Form.indexOf(el.tagName.toLowerCase()) &gt; -1) {</span>
+      is<span class="cstat-no" title="statement not covered" >Form = true</span>
+    }
+    fo<span class="cstat-no" title="statement not covered" >r (let i = 0; i &lt; Form.length; i++) {</span>
+      if<span class="cstat-no" title="statement not covered" > (el.querySelector(Form[i])) {</span>
+        is<span class="cstat-no" title="statement not covered" >Form = true</span>
+        br<span class="cstat-no" title="statement not covered" >eak</span>
+      }
+    }
+    re<span class="cstat-no" title="statement not covered" >turn isForm</span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  setVerifyVal (el, val) {
+    el<span class="cstat-no" title="statement not covered" >.setAttribute('data-verify-val', val)</span>
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  createOptions (el, binding) {
+    const _type = <span class="cstat-no" title="statement not covered" >typeof binding.value === 'string'</span>
+    const _events = <span class="cstat-no" title="statement not covered" >Object.keys(binding.modifiers)</span>
+&nbsp;
+    function ge<span class="fstat-no" title="function not covered" >nerateParam (p</span>aram) {
+      const data = <span class="cstat-no" title="statement not covered" >_type ? el.getAttribute(`data-verify-${param}`) : binding.value[param]</span>
+      re<span class="cstat-no" title="statement not covered" >turn data ? data : null</span>
+    }
+&nbsp;
+    re<span class="cstat-no" title="statement not covered" >turn {</span>
+      bind: el,
+      el: el.querySelector('input') || el.querySelector('textarea') || el,
+      regs: _type ? binding.value : binding.value.regs,
+      name: generateParam('name') || '',
+      style: generateParam('style') || this.config.errorForm || '',
+      mode: generateParam('mode') || this.config.mode || null,
+      submit: generateParam('submit'),
+      events: _events.length ? _events : ['change']
+    }
+&nbsp;
+  }<span class="fstat-no" title="function not covered" ></span>
+&nbsp;
+  install (Vue) {
+    const self = <span class="cstat-no" title="statement not covered" >this</span>
+    Vu<span class="cstat-no" title="statement not covered" >e.directive('verify', {</span>
+      inserted: function (e<span class="fstat-no" title="function not covered" >l, bindin</span>g, vnode) {
+        const options = <span class="cstat-no" title="statement not covered" >self.createOptions(el, binding)</span>
+        if<span class="cstat-no" title="statement not covered" > (!self.isForm(el)) {</span>
+          se<span class="cstat-no" title="statement not covered" >lf.setVerifyVal(el, vnode.data.props.value)</span>
+        }
+&nbsp;
+        se<span class="cstat-no" title="statement not covered" >lf.bindSubmit(options)</span>
+        se<span class="cstat-no" title="statement not covered" >lf.bindEvent(options)</span>
+      },
+      // only verify VUE components that with directives of v-model
+      update: function (e<span class="fstat-no" title="function not covered" >l, bind</span>ing, vnode, oldVnode) {
+        if<span class="cstat-no" title="statement not covered" > (self.isForm(el) || vnode.data.props.value === oldVnode.data.props.value) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+        const options = <span class="cstat-no" title="statement not covered" >self.createOptions(el, binding)</span>
+        se<span class="cstat-no" title="statement not covered" >lf.setVerifyVal(el, vnode.data.props.value)</span>
+        se<span class="cstat-no" title="statement not covered" >lf.verifyEvent(options)</span>
+      },
+      unbind: function (e<span class="fstat-no" title="function not covered" >l, bind</span>ing) {
+        de<span class="cstat-no" title="statement not covered" >bugger</span>
+        const _type = <span class="cstat-no" title="statement not covered" >typeof binding.value === 'string'</span>
+        const _submit = <span class="cstat-no" title="statement not covered" >el.getAttribute(`data-verify-submit`) || binding.value.submit</span>
+        if<span class="cstat-no" title="statement not covered" > (!_submit) re<span class="cstat-no" title="statement not covered" >turn</span></span>
+        if<span class="cstat-no" title="statement not covered" > (this.getListener(_submit)) {</span>
+          de<span class="cstat-no" title="statement not covered" >bugger</span>
+          th<span class="cstat-no" title="statement not covered" >is.removeEvent(_submit)</span>
+        }
+      }
+    })
+  }<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span>
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 02 2017 16:19:32 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

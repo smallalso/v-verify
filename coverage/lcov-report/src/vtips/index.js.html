@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/vtips/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/vtips</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/43</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/35</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/39</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import compon<span class="cstat-no" title="statement not covered" >ent from './component.js'<span class="cstat-no" title="statement not covered" ></span></span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >ex</span>port default function (Vue, config) {
+  const PromptConstructor <span class="cstat-no" title="statement not covered" >= Vue.extend(component)</span>
+  const tipsList <span class="cstat-no" title="statement not covered" >= [</span>]
+  
+  function <span class="fstat-no" title="function not covered" >getAnInstance </span>() {
+<span class="cstat-no" title="statement not covered" >    if (tipsList.length &gt; 1) {</span>
+      const instance <span class="cstat-no" title="statement not covered" >= tipsList[0</span>]
+<span class="cstat-no" title="statement not covered" >      tipsList.splice(0, 1)</span>
+<span class="cstat-no" title="statement not covered" >      return instance</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return new PromptConstructor({</span>
+      el: document.createElement('div')
+    })
+  }
+&nbsp;
+  const returnAnInstance <span class="cstat-no" title="statement not covered" >= instanc<span class="fstat-no" title="function not covered" >e =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (instance) {</span>
+<span class="cstat-no" title="statement not covered" >      tipsList.push(instance)</span>
+    }
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >getElPosition </span>(el) {
+<span class="cstat-no" title="statement not covered" >    if (window.getComputedStyle &amp;&amp; (el.parentNode &amp;&amp; !el.parentNode.style.position)) {</span>
+      const _position <span class="cstat-no" title="statement not covered" >= window.getComputedStyle(el.parentNode).positio</span>n
+<span class="cstat-no" title="statement not covered" >      if (!_position || _position === 'static') {</span>
+<span class="cstat-no" title="statement not covered" >        el.parentNode.style.position = 'relative'</span>
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      top: el.offsetTop - 38,
+      left: el.offsetLeft
+    }
+  }
+&nbsp;
+  const removeDom <span class="cstat-no" title="statement not covered" >= target <span class="fstat-no" title="function not covered" >=&gt; {</span></span>
+    const container <span class="cstat-no" title="statement not covered" >= getContainer(</span>)
+<span class="cstat-no" title="statement not covered" >    if (target.parentNode) {</span>
+<span class="cstat-no" title="statement not covered" >      container.removeChild(target)</span>
+    }
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  PromptConstructor.prototype.close = <span class="fstat-no" title="function not covered" >fu</span>nction (el) {</span>
+<span class="cstat-no" title="statement not covered" >    this.exist = false</span>
+    // removeDom(el)
+    // this.exist = true
+    // returnAnInstance(this)
+  }
+  
+  const vTips <span class="cstat-no" title="statement not covered" >= (option<span class="fstat-no" title="function not covered" >s = {}</span>) =&gt; {<span class="cstat-no" title="statement not covered" ></span></span>
+    const instance <span class="cstat-no" title="statement not covered" >= options.target || getAnInstance(</span>)
+    const container <span class="cstat-no" title="statement not covered" >= options.el.parentNod</span>e
+<span class="cstat-no" title="statement not covered" >    if (options.remove) {</span>
+<span class="cstat-no" title="statement not covered" >      instance.close(options.target)</span>
+<span class="cstat-no" title="statement not covered" >      return</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    instance.message = typeof options === 'string' ? options : options.message</span>
+<span class="cstat-no" title="statement not covered" >    instance.position = options.el ? getElPosition(options.el, instance) : options.position</span>
+<span class="cstat-no" title="statement not covered" >    instance.exist = false</span>
+<span class="cstat-no" title="statement not covered" >    instance.errorClass = options.errorClass || config.errorClass</span>
+<span class="cstat-no" title="statement not covered" >    instance.errorIcon = options.errorIcon || config.errorIcon</span>
+<span class="cstat-no" title="statement not covered" >    container.appendChild(instance.$el)</span>
+<span class="cstat-no" title="statement not covered" >    Vue.nextTick(<span class="fstat-no" title="function not covered" >fu</span>nction () {</span>
+<span class="cstat-no" title="statement not covered" >      instance.exist = true</span>
+    })
+<span class="cstat-no" title="statement not covered" >    return instance</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return vTips</span>
+}<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span></pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 02 2017 16:19:32 GMT+0800 (CST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

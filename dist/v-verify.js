@@ -2735,7 +2735,7 @@ Verify.prototype.removeEvent = function removeEvent (type, fn) {
   } else {
     delete this.listener[type];
   }
-  return this
+  return this.listener
 };
 
 Verify.prototype.verifyAll = function verifyAll (type) {

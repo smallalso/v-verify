@@ -10,8 +10,10 @@
   "scripts": {
     "dev": "node example/config/server.js",
     "build": "node config/build.js",
+    "test-cov": "npm run test -- --coverage",
     "lint": "eslint --ext .js src --fix",
     "test": "npm run lint && jest",
+    "bench": "make -C benchmarks",
     "docs": "node example/config/build.js"
   },
   "jest": {

@@ -48,7 +48,7 @@ class Verify {
     } else {
       delete this.listener[type]
     }
-    return this
+    return this.listener
   }
 
   verifyAll (type) {
