@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   required: (filed) => `${filed} is required.`,
   numberic: (filed) => `${filed} only can contain numeric characters.`,
   email: (filed) => `${filed} is not a valid email.`,

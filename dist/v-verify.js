@@ -2734,29 +2734,31 @@ var event = {
   getListener: getListener
 };
 
+var Validate = function Validate (validators) {
+  this.validators = validators;
+};
+
 /**
  * generate verify function for all verifies
- * @param {Object} config 
- * @param {function} tips 
+ * @param {validator} a validator
+ * @param {value} a value need to validate
  */
+Validate.prototype.verify = function verify (validator, value) {
+  var _validator = filterRegParams(validator);
+  if (!this.validators[_validator[0]]) {
+    throw new function () {
+      return ("the " + validator + " is undefined")
+    }()
+    return
+  }
+  return _validator[1] ? 
+         verifyValue(this.validators[_validator[0]], value, _validator[1]) :
+         verifyValue(this.validators[_validator[0]], value)
+};
 
-function validate (validators) {
-
-  this.verify = function (validator, value) {
-    var _validator = filterRegParams(validator);
-    if (!validators[_validator[0]]) {
-      throw new function () {
-        return ("the " + validator + " is undefined")
-      }()
-      return
-    }
-    return _validator[1] ? verifyValue(validators[_validator[0]], value, _validator[1]) : verifyValue(validators[_validator[0]], value)
-  };
-
-  this.verifyAll = function (type) {
-    return event.fireEvent(type)
-  };
-}
+Validate.prototype.verifyAll = function verifyAll (type) {
+  return event.fireEvent(type)
+};
 
 var errorRender = function (Vue, config) {
   var errorList = [];
@@ -2947,8 +2949,7 @@ var vTips = function (Vue, config) {
 /**
  *  registered directives in VUE for all verifies
  *  @param {Object} Vue
- *  @param {string} name
- *  @param {function} fn
+ *  @param {Object} config
 */
 
 var directives = function (Vue, config) {
@@ -2974,7 +2975,7 @@ var directives = function (Vue, config) {
     if (!_regs) { return }
     for (var i = 0; i < _regs.length; i++) {
       var reg = _regs[i].trim();
-      if (config.verify(reg, value)) {
+      if (Vue.validator.verify(reg, value)) {
         _result.push(true);
         continue
       }
@@ -3170,6 +3171,29 @@ var directives = function (Vue, config) {
   });
 };
 
+var zh_cn = {
+  required: function (filed) { return (filed + "不能为空"); },
+  numberic: function (filed) { return (filed + "不能包含非数字字符"); },
+  email: function (filed) { return (filed + "不符合指定邮箱格式"); },
+  date: function (filed, format) { return (filed + "不符合指定日期格式: " + (format || 'YYYY-MM-DD')); },
+  max: function (filed, length) { return (filed + "超过最大长度" + length); },
+  min: function (filed, length) { return (filed + "小于最小长度" + length); },
+  len: function (filed, length) { return (filed + "长度必须为" + length); },
+  identity: function (filed) { return (filed + "不符合指定身份证格式"); }
+};
+
+var en_us = {
+  required: function (filed) { return (filed + " is required."); },
+  numberic: function (filed) { return (filed + " only can contain numeric characters."); },
+  email: function (filed) { return (filed + " is not a valid email."); },
+  date: function (filed, format) { return (filed + " must be in the format: " + (format || 'YYYY-MM-DD')); },
+  max: function (filed, length) { return (filed + " may not be greater than " + length); },
+  min: function (filed, length) { return (filed + " must be at least " + length); },
+  len: function (filed, length) { return (filed + " must be at " + length); }
+};
+
+var lang = { zh_cn: zh_cn, en_us: en_us };
+
 /**
  * VUE plugin registed function
  * @param {Object} Vue object 
@@ -3180,17 +3204,16 @@ function install (Vue, options) {
   if ( options === void 0 ) options = {};
 
   options.lang = options.lang || 'zh_cn';
-  var validators = Object.assign(validator, options.validators);
-  var messages = Object.assign(require('./locale/' + options.lang),  options.messages);
+  Object.assign(validator, options.validators);
+  Object.assign(lang[options.lang], options.messages);
   try {
-    Vue.validator = Vue.prototype.$validator = new validate(validators);
+    Vue.validator = Vue.prototype.$validator = new Validate(validator);
     directives(Vue, {
       mode: options.mode,
       errorIcon: options.errorIcon,
       errorClass: options.errorClass || null,
       errorForm: options.errorForm,
-      verify: Vue.validator.verify,
-      messages: messages
+      messages: lang[options.lang]
     });
   } catch (e) {
     console.error((e + "\nfrom v-verify"));

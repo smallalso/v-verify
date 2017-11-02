@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   required: (filed) => `${filed}不能为空`,
   numberic: (filed) => `${filed}不能包含非数字字符`,
   email: (filed) => `${filed}不符合指定邮箱格式`,
