@@ -1,12 +1,5 @@
 sudo: false
 language: node_js
-before_script:
-  - npm prune
-  - "[ ! -f wrk/bin/wrk ] && rm -rf wrk && git clone https://github.com/wg/wrk.git && make -C wrk && mkdir wrk/bin && mv wrk/wrk wrk/bin || true"
-  - export PATH=$PATH:$PWD/wrk/bin/
 script:
   - npm run lint
   - npm run test-cov
-after_script:
-  - npm install codecov
-  - ./node_modules/.bin/codecov
