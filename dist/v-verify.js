@@ -1,5 +1,5 @@
 /**
-      * v-verify v1.0.6
+      * v-verify v1.0.7
       * (c) 2017 joinyi
       * @license MIT
       */
@@ -2554,6 +2554,16 @@ function filterRegParams (reg) {
   return [_reg.shift(), _reg]
 }
 
+function splitRegs (regs) {
+  if (!regs) {
+    throw new function () {
+      return "the directive v-verify value is undefined"
+    }()
+    return
+  }
+  return regs.split('|')
+}
+
 function verifyValue (reg, value, params) {
   var _regType = classOf(reg);
   var _fn = null;
@@ -2675,24 +2685,27 @@ var validator = {
   identity: identity
 };
 
-var listener = {};
-
-function addEvent (type, fn) {
+var Verify = function Verify (validators) {
+  this.listener = {};
+  this.validators = validators;
+};
+  
+Verify.prototype.addEvent = function addEvent (type, fn) {
   if (!type || !fn || typeof type !== 'string' || typeof fn !== 'function') {
     throw new Error('传入的参数不符合要求！')
     return
   }
-
-  if (typeof listener[type] === 'undefined') {
-    listener[type] = [];
+  
+  if (typeof this.listener[type] === 'undefined') {
+    this.listener[type] = [];
   }
-
-  listener[type].push(fn);
-  return listener
-}
-
-function fireEvent (type) {
-  var _target = listener[type];
+  
+  this.listener[type].push(fn);
+  return this
+};
+  
+Verify.prototype.fireEvent = function fireEvent (type) {
+  var _target = this.listener[type];
   var result = [];
   if (!type || !_target || !_target.length) {
     throw new Error('无该类型事件')
@@ -2703,10 +2716,12 @@ function fireEvent (type) {
     result.push(item({ type: type }));
   });
   return result
-}
+};
+  
+Verify.prototype.removeEvent = function removeEvent (type, fn) {
+    var this$1 = this;
 
-function removeEvent (type, fn) {
-  var _target = listener[type];
+  var _target = this.listener[type];
   if (!type || !_target || !_target.length) {
     throw new Error('无该类型事件')
     return
@@ -2714,36 +2729,20 @@ function removeEvent (type, fn) {
   if (typeof fn === 'function') {
     for (var i = 0; i < _target.length; i++) {
       if (_target[i] !== fn) { continue }
-      listener[type].splice(i, 1);
+      this$1.listener[type].splice(i, 1);
       break
     }
   } else {
-    delete listener[type];
+    delete this.listener[type];
   }
-  return listener
-}
-
-function getListener (type) {
-  return listener[type]
-}
-
-var event = {
-  addEvent: addEvent,
-  fireEvent: fireEvent,
-  removeEvent: removeEvent,
-  getListener: getListener
+  return this
 };
 
-var Validate = function Validate (validators) {
-  this.validators = validators;
+Verify.prototype.verifyAll = function verifyAll (type) {
+  return this.fireEvent(type)
 };
 
-/**
- * generate verify function for all verifies
- * @param {validator} a validator
- * @param {value} a value need to validate
- */
-Validate.prototype.verify = function verify (validator, value) {
+Verify.prototype.verify = function verify (validator, value) {
   var _validator = filterRegParams(validator);
   if (!this.validators[_validator[0]]) {
     throw new function () {
@@ -2754,10 +2753,6 @@ Validate.prototype.verify = function verify (validator, value) {
   return _validator[1] ? 
          verifyValue(this.validators[_validator[0]], value, _validator[1]) :
          verifyValue(this.validators[_validator[0]], value)
-};
-
-Validate.prototype.verifyAll = function verifyAll (type) {
-  return event.fireEvent(type)
 };
 
 var errorRender = function (Vue, config) {
@@ -2952,96 +2947,84 @@ var vTips = function (Vue, config) {
  *  @param {Object} config
 */
 
-var directives = function (Vue, config) {
-  var disError = errorRender(Vue, config);
-  var tipError = vTips(Vue, config);
-  function dealRegs (regs) {
-    if (!regs) {
-      throw new function () {
-        return "the directive v-verify value is undefined"
-      }()
-      return
-    }
-    return regs.split('|')
+var Directive = (function (Verify$$1) {
+  function Directive (Vue, config) {
+    Vue.validator = Vue.prototype.$validator = Verify$$1.call(this, config.validators); 
+    this.config = config;
+    this.disError = errorRender(Vue, config);
+    this.tipError = vTips(Vue, config);
   }
 
-  function dealValue (value, options) {
+  if ( Verify$$1 ) Directive.__proto__ = Verify$$1;
+  Directive.prototype = Object.create( Verify$$1 && Verify$$1.prototype );
+  Directive.prototype.constructor = Directive;
+
+  Directive.prototype.verifyRegs = function verifyRegs (value, options) {
+    var this$1 = this;
+
     var el = options.el;
     var regs = options.regs;
-    var error = options.error;
     var name = options.name;
-    var _regs = dealRegs(regs);
+    var _regs = splitRegs(regs);
     var _result = [];
     if (!_regs) { return }
     for (var i = 0; i < _regs.length; i++) {
       var reg = _regs[i].trim();
-      if (Vue.validator.verify(reg, value)) {
+      if (this$1.verify(reg, value)) {
         _result.push(true);
         continue
       }
       _result.push(false);
       break
     }
-    return dealVerification(_result, _regs, options)
-  }
+    return this.dealVerifyResult(_result, _regs, options)
+  };
 
-  function dealVerification (_result, _regs, options) {
+  Directive.prototype.dealVerifyResult = function dealVerifyResult (_result, _regs, options) {
     var _bool = !_result[_result.length - 1];
     var bind = options.bind;
     var el = options.el;
-    var error = options.error;
     var name = options.name;
-    var _mode = options.mode || config.mode || (error || 'insert');
-    var _text = _bool ? getMessage(_regs[_result.length - 1].trim(), name) : '';
+    var _mode = options.mode || config.mode || 'insert';
+    var _text = _bool ? this.getMessage(_regs[_result.length - 1].trim(), name) : '';
+
     if (_mode === 'insert') {
-      insertError(bind, _text, !_bool);
+      this.insertError(bind, _text, !_bool);
     } else if (_mode === 'tip') {
-      tipsError(el, _text, !_bool);
-    } else {
-      putError(error, _text, _bool);
+      this.tipsError(el, _text, !_bool);
     }
-    addErrorClass(_bool, options);
+    this.dealFormClass(_bool, options);
     return !_bool    
-  }
+  };
 
-  function putError (error, _text, _bool) {
-    errorDisplay(error, _bool);
-    if (error.node) {
-      (error.node !== _text) && (error.lastChild.replaceData(0, error.node.length, _text));
-      error.node = _text;
-    }
-    error.node = document.createTextNode(_text);
-    error.appendChild(error.node);
-  }
-
-  function insertError (el, _text, _bool) {
+  Directive.prototype.insertError = function insertError (el, _text, _bool) {
     if (el.instance && el.instance.message === _text) { return }
     if (el.instance && _text !== '') {
       el.instance.message = _text;
       return
     }
-    el.instance = disError({
+    el.instance = this.disError({
       el: el,
       target: el.instance || null,
       message: _text
     });
-  }
+  };
 
-  function tipsError (el, _text, _bool) {
+  Directive.prototype.tipsError = function tipsError (el, _text, _bool) {
     if (el.instance && el.instance.message === _text) { return }
     if (el.instance && _text !== '') {
       el.instance.message = _text;
       return
     }
-    el.instance = tipError({
+    el.instance = this.tipError({
       el: el,
       remove: _bool,
       target: el.instance || null,
       message: _text
     });
-  }
+  };
 
-  function addErrorClass (type, options) {
+  Directive.prototype.dealFormClass = function dealFormClass (type, options) {
     var el = options.el;
     var style = options.style;
     if (!style || (type && el.className.indexOf(style) !== -1)) { return }
@@ -3050,52 +3033,52 @@ var directives = function (Vue, config) {
       return
     }
     el.className += " " + style;
-  }
+  };
 
-  function errorDisplay (error, boolean) {
-    if (!error) { return }
-    error.style.display = boolean ? 'block' : 'none';
-  }
-
-  function getMessage (reg, value) {
+  Directive.prototype.getMessage = function getMessage (reg, value) {
     var _reg = filterRegParams(reg);
-    var _msg = config.messages[_reg[0]];
-    return _msg ? _msg(value, _reg[1]) : ''
-  }
+    var _msg = this.config.messages[_reg[0]];
 
-  function verifySubmit (options) {
+    return _msg ? _msg(value, _reg[1]) : ''
+  };
+
+  Directive.prototype.bindSubmit = function bindSubmit (options) {
     var el = options.el;
     var submit = options.submit;
     if (!submit) { return }
-    event.addEvent(submit, function () {
-      return verifyEvent(options)
+    var self = this;
+    this.addEvent(submit, function () {
+      return self.verifyEvent(options)
     }); 
-  }
+  };
 
-  function verifyEvent (options) {
+  Directive.prototype.verifyEvent = function verifyEvent (options) {
     var el = options.el;
+    var _setValue = el.dataset.verifyVal;
     var _value = el.value;
-    if (el.dataset.verifyVal !== 'null' && el.dataset.verifyVal !== 'undefined' && el.dataset.verifyVal) {
-      _value = el.dataset.verifyVal;
+    if (_setValue !== 'null' && _setValue !== 'undefined' && _setValue) {
+      _value = _setValue;
     }
-    return dealValue(_value, options)
-  }
+    return this.verifyRegs(_value, options)
+  };
 
-  function bindEvent (options) {
+  Directive.prototype.bindEvent = function bindEvent (options) {
+    var this$1 = this;
+
     var el = options.el;
     var events = options.events;
     events.forEach(function (item) {
       if (item === 'initial') {
-        return verifyEvent(options)
+        return this$1.verifyEvent(options)
       }
-      if (!isForm(el)) { return }
+      if (!this$1.isForm(el)) { return }
       el.addEventListener(item, function (e) {
-        dealValue(e.target.value, options);
+        return this$1.verifyEvent(options)
       });
     });
-  }
+  };
 
-  function isForm (el) {
+  Directive.prototype.isForm = function isForm (el) {
     if (!el) { return }
     var isForm = false;
     var Form = ['input', 'textarea'];
@@ -3109,67 +3092,68 @@ var directives = function (Vue, config) {
       }
     }
     return isForm
-  }
+  };
 
-  function setVerifyVal (el, val) {
+  Directive.prototype.setVerifyVal = function setVerifyVal (el, val) {
     el.setAttribute('data-verify-val', val);
-  }
+  };
 
-  function generateParam (el, binding, type, param) {
-    var data = type ? el.getAttribute(("data-verify-" + param)) : binding.value[param];
-    if (param === 'dom') {
-      if (!data) { return null }
-      while (el.parentNode && !el.parentNode.querySelector(data)) {
-        el = el.parentNode;
-      }
-      return el.parentNode.querySelector(data) || null
-    }
-    return data ? data : null
-  }
-
-  function buildOptions (el, binding) {
+  Directive.prototype.createOptions = function createOptions (el, binding) {
     var _type = typeof binding.value === 'string';
     var _events = Object.keys(binding.modifiers);
+
+    function generateParam (param) {
+      var data = _type ? el.getAttribute(("data-verify-" + param)) : binding.value[param];
+      return data ? data : null
+    }
+
     return {
       bind: el,
       el: el.querySelector('input') || el.querySelector('textarea') || el,
       regs: _type ? binding.value : binding.value.regs,
-      error:  generateParam(el, binding, _type, 'dom'),
-      name: generateParam(el, binding, _type, 'name') || '',
-      style: generateParam(el, binding, _type, 'style') || config.errorForm || '',
-      mode: generateParam(el, binding, _type, 'mode') || config.mode || null,
-      submit: generateParam(el, binding, _type, 'submit'),
+      name: generateParam('name') || '',
+      style: generateParam('style') || this.config.errorForm || '',
+      mode: generateParam('mode') || this.config.mode || null,
+      submit: generateParam('submit'),
       events: _events.length ? _events : ['change']
     }
-  }
 
-  Vue.directive('verify', {
-    inserted: function (el, binding, vnode) {
-      var options = buildOptions(el, binding);
-      if (!isForm(el)) {
-        setVerifyVal(el, vnode.data.props.value);
+  };
+
+  Directive.prototype.install = function install (Vue) {
+    var self = this;
+    Vue.directive('verify', {
+      inserted: function (el, binding, vnode) {
+        var options = self.createOptions(el, binding);
+        if (!self.isForm(el)) {
+          self.setVerifyVal(el, vnode.data.props.value);
+        }
+
+        self.bindSubmit(options);
+        self.bindEvent(options);
+      },
+      // only verify VUE components that with directives of v-model
+      update: function (el, binding, vnode, oldVnode) {
+        if (self.isForm(el) || vnode.data.props.value === oldVnode.data.props.value) { return }
+        var options = self.createOptions(el, binding);
+        self.setVerifyVal(el, vnode.data.props.value);
+        self.verifyEvent(options);
+      },
+      unbind: function (el, binding) {
+        debugger
+        var _type = typeof binding.value === 'string';
+        var _submit = el.getAttribute("data-verify-submit") || binding.value.submit;
+        if (!_submit) { return }
+        if (this.getListener(_submit)) {
+          debugger
+          this.removeEvent(_submit);
+        }
       }
-      // 初始化隐藏 error 元素
-      errorDisplay(options.error, false);
-      verifySubmit(options);
-      bindEvent(options);
-    },
-    update: function (el, binding, vnode, oldVnode) {
-      if (isForm(el) || vnode.data.props.value === oldVnode.data.props.value) { return }
-      var options = buildOptions(el, binding);
-      setVerifyVal(el, vnode.data.props.value);
-      verifyEvent(options);
-    },
-    unbind: function (el, binding) {
-      var _type = typeof binding.value === 'string';
-      var _submit = generateParam(el, binding, _type, 'submit');
-      if (!_submit) { return }
-      if (event.getListener(_submit)) {
-        event.removeEvent(_submit);
-      }
-    }
-  });
-};
+    });
+  };
+
+  return Directive;
+}(Verify));
 
 var zh_cn = {
   required: function (filed) { return (filed + "不能为空"); },
@@ -3207,14 +3191,15 @@ function install (Vue, options) {
   Object.assign(validator, options.validators);
   Object.assign(lang[options.lang], options.messages);
   try {
-    Vue.validator = Vue.prototype.$validator = new Validate(validator);
-    directives(Vue, {
+    var directive = new Directive(Vue, {
       mode: options.mode,
       errorIcon: options.errorIcon,
       errorClass: options.errorClass || null,
       errorForm: options.errorForm,
+      validators: validator,
       messages: lang[options.lang]
     });
+    directive.install(Vue);
   } catch (e) {
     console.error((e + "\nfrom v-verify"));
   }
