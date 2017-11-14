@@ -2949,7 +2949,8 @@ var vTips = function (Vue, config) {
 
 var Directive = (function (Verify$$1) {
   function Directive (Vue, config) {
-    Vue.validator = Vue.prototype.$validator = Verify$$1.call(this, config.validators); 
+    Verify$$1.call(this, config.validators);
+    Vue.validator = Vue.prototype.$validator =  this;
     this.config = config;
     this.disError = errorRender(Vue, config);
     this.tipError = vTips(Vue, config);

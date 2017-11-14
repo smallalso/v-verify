@@ -11,7 +11,8 @@ import { filterRegParams, splitRegs } from './utils.js'
 
 export default class Directive extends Verify {
   constructor (Vue, config) {
-    Vue.validator = Vue.prototype.$validator = super(config.validators) 
+    super(config.validators)
+    Vue.validator = Vue.prototype.$validator =  this
     this.config = config
     this.disError = errorRender(Vue, config)
     this.tipError = vTips(Vue, config)
