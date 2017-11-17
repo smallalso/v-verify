@@ -188,13 +188,11 @@ export default class Directive extends Verify {
         self.verifyEvent(options)
       },
       unbind: function (el, binding) {
-        debugger
         const _type = typeof binding.value === 'string'
         const _submit = el.getAttribute(`data-verify-submit`) || binding.value.submit
         if (!_submit) return
-        if (this.getListener(_submit)) {
-          debugger
-          this.removeEvent(_submit)
+        if (self.listener[_submit]) {
+          self.removeEvent(_submit)
         }
       }
     })

@@ -1,5 +1,5 @@
 /**
-      * v-verify v1.0.7
+      * v-verify v1.1.0
       * (c) 2017 joinyi
       * @license MIT
       */
@@ -3141,13 +3141,11 @@ var Directive = (function (Verify$$1) {
         self.verifyEvent(options);
       },
       unbind: function (el, binding) {
-        debugger
         var _type = typeof binding.value === 'string';
         var _submit = el.getAttribute("data-verify-submit") || binding.value.submit;
         if (!_submit) { return }
-        if (this.getListener(_submit)) {
-          debugger
-          this.removeEvent(_submit);
+        if (self.listener[_submit]) {
+          self.removeEvent(_submit);
         }
       }
     });
