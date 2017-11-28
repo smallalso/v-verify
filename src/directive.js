@@ -1,7 +1,7 @@
 import Verify from './verify.js'
 import errorRender from './error.js'
 import vTips from './vtips/index.js'
-import { filterRegParams, splitRegs } from './utils.js'
+import { filterRegParams, splitRegs, compareParams } from './utils.js'
 
 /**
  *  registered directives in VUE for all verifies
@@ -146,6 +146,17 @@ export default class Directive extends Verify {
     el.setAttribute('data-verify-val', val)
   }
 
+  initVerify (el, binding, vnode ) {
+    const options = this.createOptions(el, binding)
+    if (!this.isForm(el)) {
+      this.setVerifyVal(el, vnode.data.props.value)
+    }
+
+    this.bindSubmit(options)
+    this.bindEvent(options)
+    return options
+  }
+
   createOptions (el, binding) {
     const _type = typeof binding.value === 'string'
     const _events = Object.keys(binding.modifiers)
@@ -172,18 +183,19 @@ export default class Directive extends Verify {
     const self = this
     Vue.directive('verify', {
       inserted: function (el, binding, vnode) {
-        const options = self.createOptions(el, binding)
-        if (!self.isForm(el)) {
-          self.setVerifyVal(el, vnode.data.props.value)
-        }
-
-        self.bindSubmit(options)
-        self.bindEvent(options)
+        self.initVerify(el, binding, vnode)
       },
       // only verify VUE components that with directives of v-model
       update: function (el, binding, vnode, oldVnode) {
+        // watch params change
+        let options = null
+        if (!compareParams(binding.value, binding.oldValue)) {
+          options = self.initVerify(el, binding, vnode)
+        }
+
+        // verify v-model
         if (self.isForm(el) || vnode.data.props.value === oldVnode.data.props.value) return
-        const options = self.createOptions(el, binding)
+        options = options || self.createOptions(el, binding)
         self.setVerifyVal(el, vnode.data.props.value)
         self.verifyEvent(options)
       },

@@ -1,5 +1,5 @@
 /**
-      * v-verify v1.1.0
+      * v-verify v1.1.1
       * (c) 2017 joinyi
       * @license MIT
       */
@@ -2603,6 +2603,22 @@ function verifyValue (reg, value, params) {
   return _fn(value)
 }
 
+function compareParams (origin, compare) {
+  if (!origin) { return }
+  var _compare = true;
+  if (!typeof origin === 'object') {
+    Object.keys(origin).forEach(function (item) {
+      if (origin[item] !== compare[item]) {
+        _compare = false;
+        return
+      }
+    });
+  } else {
+    _compare = origin === compare;
+  }
+  return _compare
+}
+
 var date = function (value, format$$1) {
   if ( format$$1 === void 0 ) format$$1 = 'YYYY-MM-DD';
 
@@ -3099,6 +3115,17 @@ var Directive = (function (Verify$$1) {
     el.setAttribute('data-verify-val', val);
   };
 
+  Directive.prototype.initVerify = function initVerify (el, binding, vnode ) {
+    var options = this.createOptions(el, binding);
+    if (!this.isForm(el)) {
+      this.setVerifyVal(el, vnode.data.props.value);
+    }
+
+    this.bindSubmit(options);
+    this.bindEvent(options);
+    return options
+  };
+
   Directive.prototype.createOptions = function createOptions (el, binding) {
     var _type = typeof binding.value === 'string';
     var _events = Object.keys(binding.modifiers);
@@ -3125,18 +3152,19 @@ var Directive = (function (Verify$$1) {
     var self = this;
     Vue.directive('verify', {
       inserted: function (el, binding, vnode) {
-        var options = self.createOptions(el, binding);
-        if (!self.isForm(el)) {
-          self.setVerifyVal(el, vnode.data.props.value);
-        }
-
-        self.bindSubmit(options);
-        self.bindEvent(options);
+        self.initVerify(el, binding, vnode);
       },
       // only verify VUE components that with directives of v-model
       update: function (el, binding, vnode, oldVnode) {
+        // watch params change
+        var options = null;
+        if (!compareParams(binding.value, binding.oldValue)) {
+          options = self.initVerify(el, binding, vnode);
+        }
+
+        // verify v-model
         if (self.isForm(el) || vnode.data.props.value === oldVnode.data.props.value) { return }
-        var options = self.createOptions(el, binding);
+        options = options || self.createOptions(el, binding);
         self.setVerifyVal(el, vnode.data.props.value);
         self.verifyEvent(options);
       },

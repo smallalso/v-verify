@@ -73,11 +73,28 @@ function verifyValue (reg, value, params) {
   return _fn(value)
 }
 
+function compareParams (origin, compare) {
+  if (!origin) return
+  let _compare = true
+  if (!typeof origin === 'object') {
+    Object.keys(origin).forEach(item => {
+      if (origin[item] !== compare[item]) {
+        _compare = false
+        return
+      }
+    })
+  } else {
+    _compare = origin === compare
+  }
+  return _compare
+}
+
 export {
   classOf,
   filterRegParams,
   splitRegs,
   parse,
   verifyValue,
-  formatDate
+  formatDate,
+  compareParams
 }
